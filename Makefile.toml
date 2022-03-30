@@ -29,31 +29,23 @@ dependencies = ["fmt", "check", "clippy"]
 command = "openssl"
 args = [
   "req",
-  "-newkey",
-  "rsa:2048",
   "-new",
-  "-nodes",
-  "-keyout",
-  "locus_private.pem",
-  "-out",
-  "locus_public.pem",
   "-subj",
-  "/CN=fuwn.me"
-]
-
-[tasks.fixkey]
-command = "openssl"
-args = [
-  "x509",
-  "-req",
+  "/CN=fuwn.me",
+  "-x509",
+  "-newkey",
+  "ec",
+  "-pkeyopt",
+  "ec_paramgen_curve:prime256v1",
   "-days",
   "365",
-  "-in",
-  "locus_public.pem",
-  "-signkey",
-  "locus_private.pem",
+  "-nodes",
   "-out",
-  "locus_pair.pem"
+  ".locus/windmark_public.pem",
+  "-keyout",
+  ".locus/windmark_private.pem",
+  "-inform",
+  "pem",
 ]
 
 [tasks.run]

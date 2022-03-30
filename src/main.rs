@@ -85,7 +85,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   let uptime = Instant::now();
 
   router.set_private_key_file(".locus/locus_private.pem");
-  router.set_certificate_chain_file(".locus/locus_pair.pem");
+  router.set_certificate_file(".locus/locus_public.pem");
   router.set_pre_route_callback(Box::new(|stream, url, _| {
     info!(
       "accepted connection from {} to {}",
