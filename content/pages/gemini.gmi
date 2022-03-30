@@ -54,7 +54,7 @@ Windmark: An elegant and highly performant async Gemini server framework, writte
 
 Similar to Gig, but faster and written in Rust.
 
-=> https://github.com/gemrest/windmark
+=> https://github.com/gemrest/windmark Windmark
 
 Gig: A Golang framework for developing and deploying dynamic (or static) Gemini capsules.
 
