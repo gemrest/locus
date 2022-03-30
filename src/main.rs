@@ -47,11 +47,11 @@ use yarte::Template;
 
 static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
   Mutex::new({
-    if std::fs::File::open("locus.db").is_ok() {
-      PickleDb::load_json("locus.db", pickledb::PickleDbDumpPolicy::AutoDump)
+    if std::fs::File::open(".locus/locus.db").is_ok() {
+      PickleDb::load_json(".locus/locus.db", pickledb::PickleDbDumpPolicy::AutoDump)
         .unwrap()
     } else {
-      PickleDb::new_json("locus.db", pickledb::PickleDbDumpPolicy::AutoDump)
+      PickleDb::new_json(".locus/locus.db", pickledb::PickleDbDumpPolicy::AutoDump)
     }
   })
 });
