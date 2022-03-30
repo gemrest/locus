@@ -41,9 +41,9 @@ args = [
   "365",
   "-nodes",
   "-out",
-  ".locus/windmark_public.pem",
+  ".locus/locus_public.pem",
   "-keyout",
-  ".locus/windmark_private.pem",
+  ".locus/locus_private.pem",
   "-inform",
   "pem",
 ]
