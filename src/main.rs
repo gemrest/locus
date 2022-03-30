@@ -79,7 +79,6 @@ fn hits_from_route(route: &str) -> i32 {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
   std::env::set_var("RUST_LOG", "windmark,locus=trace");
   pretty_env_logger::init();
-  dotenv::dotenv().ok();
 
   let mut time_mount = Instant::now();
   let mut router = Router::new();
@@ -87,7 +86,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   router.set_private_key_file(".locus/locus_private.pem");
   router.set_certificate_chain_file(".locus/locus_pair.pem");
-  router.set_port(std::env::var("PORT").unwrap().parse().unwrap());
   router.set_pre_route_callback(Box::new(|stream, url, _| {
     info!(
       "accepted connection from {} to {}",
