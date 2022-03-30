@@ -1,0 +1,76 @@
+# GEMINI
+
+What is Gemini? I think DT from DistroTube explains it well:
+
+=> gemini://distro.tube distro.tube
+=> https://distrotube.com distrotube.com
+
+## WHY GEMINI?
+
+I have decided to move my personal websites -- and some other projects -- over to the Gemini protocol for a number of reasons (in no specific order):
+
+* Gemini-based capsules are easy to maintain
+* Gemini-based capsules are fun to maintain!
+* No tracking, ads, or any other unneeded fluff
+* The community: From the short experience I have had with the Gemini community, it has been awesome! I love to see the motivation and movement behind this project, it's really inspiring!
+* The development-sphere
+
+## RESOURCES
+
+### CLIENTS
+
+Amfora: A very nice, feature-rich, and easy-to-use CLI client for Gemini, my client of choice.
+
+=> https://github.com/makeworld-the-better-one/amfora Amfora
+
+Bollux: A fun little CLI client for Gemini written in Bash! I mostly use this for quick and dirty testing and development purposes.
+
+=> https://sr.ht/~acdw/bollux/ Bollux
+
+Elaho: An elegant IOS Gemini client.
+
+=> gemini://elaho.glv.one
+
+### PROXIES
+
+Capybara: A Gemini to HTTP proxy, simple and just works.
+
+=> https://github.com/fuwn/capybara Capybara
+
+Mozz.us and Vuples.one Portals: Great Gemini to HTTP proxies, simple and intuitive.
+
+=> https://portal.mozz.us portal.mozz.us
+=> https://proxy.vulpes.one proxy.vulpes.one
+
+Alternatively, you can also use Capybara's (the Gemini-to-HTTP proxy I use for this capsule) built in proxy at the following URL:
+
+=> https://fuwn.me/proxy/fuwn.me fuwn.me/proxy/fuwn.me
+
+Just replace the "fuwn.me" after "proxy/" with whatever Gemini capsule you would like to visit, but be warned; it is not as sophisticated as the aforementioned proxies above, but it gets the job done!
+
+### FRAMEWORKS & SERVERS
+
+Windmark: An elegant and highly performant async Gemini server framework, written by me! (Fuwn)
+
+Similar to Gig, but faster and written in Rust.
+
+=> https://github.com/gemrest/windmark
+
+Gig: A Golang framework for developing and deploying dynamic (or static) Gemini capsules.
+
+=> https://github.com/pitr/gig Gig
+
+Agate: A static Gemini server written in Rust! I'd recommend this to just about anyone!
+
+=> gemini://gem.limpet.net/agate Agate
+
+### CAPSULES
+
+=> gemini://gemini.circumlunar.space Project Gemini
+=> gemini://medusae.space medusae.space gemini directory
+=> gemini://gem.acdw.net acdw's gemini cottage
+=> gemini://gem.chriswere.uk Chris's gemini capsule
+=> gemini://gemini.barca.mi.it The Amazing Fnt400's Gemini Capsule
+=> gemini://hexdsl.co.uk The Home of HexDSL
+=> gemini://envs.net envs.net
+=> gemini://rawtext.club rawtext.club

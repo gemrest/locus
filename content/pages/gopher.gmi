@@ -1,0 +1,22 @@
+# GOPHER
+
+## RESOURCES
+
+### CLIENTS
+
+phetch: Similar to Amfora over at Gemini in the aspect that it is a feature-rich and easy-to-use CLI client, once again, my client of choice.
+
+=> https://github.com/xvxx/phetch phetch
+
+Gopher: A straightforward Gopher client for IOS.
+
+=> gopher://forthworks.com/1/iOS/gopher
+
+### GOPHERHOLES
+
+=> gopher://bitreich.org/1/lawn The Gopher Lawn
+=> gopher://gopherpedia.com Gopherpedia
+=> gopher://gopher.floodgap.com/1/gopher Floodgap Systems
+=> gopher://forthworks.com/1/ ForthWorks
+=> gopher://sdf.org/1/ SDF
+=> gopher://hngopher.com/1/ Hacker News

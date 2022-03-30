@@ -1,0 +1,7 @@
+services:
+  locus:
+    ports:
+      - "1965:1965"
+    volumes:
+      - "./.locus:/locus/.locus"
+    image: "fuwn/locus:latest"

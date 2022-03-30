@@ -1,0 +1,51 @@
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[package]
+name = "locus"
+version = "0.0.0"
+authors = ["Fuwn <contact@fuwn.me>"]
+edition = "2021"
+description = "Fuwn's Gemini Capsule"
+readme = "README.md"
+homepage = "https://github.com/gemrest/locus"
+repository = "https://github.com/gemrest/locus"
+license = "GPL-3.0-only"
+keywords = ["gemini"]
+categories = ["web-programming"]
+publish = false
+
+# Slower builds, faster executables
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+
+[dependencies]
+# Gemini
+windmark = { version = "0.1.3", features = ["logger"] }
+
+# Loggging
+log = "0.4.16"
+pretty_env_logger = "0.4.0"
+
+# Tokio
+tokio = { version = "0.2.4", features = ["full"] }
+
+# Database
+pickledb = "0.4.1"
+
+# Templates
+yarte = "0.15.6"
+
+# RNG
+rand = "0.8.5"
+
+[build-dependencies]
+# Templates
+yarte = "0.15.6"
+
+# Environment Variables
+vergen = "7.0.0"
+
+# `Result`
+anyhow = "1.0.56"

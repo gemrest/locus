@@ -1,0 +1,9 @@
+# RUST
+
+Author: Fuwn
+Created: 2021. 07. 23.
+Last Modified: 2021. 07. 23.
+
+## RESOURCES
+
+=> https://ceronman.com/2021/07/22/my-experience-crafting-an-interpreter-with-rust/ My experience crafting an interpreter with Rust

@@ -1,0 +1,14 @@
+# FUWN.SPACE
+
+Ditch the web, use Gemini!
+
+## PROJECT GEMINI
+
+What is Gemini? If you want it quick and simple, DT from DistroTube explains it well:
+
+=> gemini://distro.tube distro.tube
+=> https://distrotube.com distrotube.com
+
+You can also read more into Gemini
+
+=> /gemini here!

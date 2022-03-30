@@ -1,0 +1,21 @@
+# SKILLS
+
+## TECH STACK MASTERY
+
+* C
+* C++
+* Go
+* Node.js (JavaScript, TypeScript): Discord.js, Angular, Express, Akairo, React, Nuxt, Vue, Svelte
+* Deno
+* Python
+* JVM (Java, Clojure): Bukkit, Spark, JDA
+* Rust: Serenity, Rocket, Actix, Tokio
+* PHP: FluxBB, MyBB
+
+## TOOLS, ACCESSORIES
+
+* Document Preparation: Markdown, Pandoc, LaTeX, ReST, Microsoft Word, LibreOffice Writer
+* Build Tools: CMake, GNU Make, Divina, Cargo, Ninja
+* Version Control: Git, Mercurial
+* Game Engines: Unity
+* Databases: PostgreSQL, SQLite, MongoDB, MySQL
