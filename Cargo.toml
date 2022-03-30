@@ -40,9 +40,6 @@ yarte = "0.15.6"
 # RNG
 rand = "0.8.5"
 
-# Environment Variables
-dotenv = "0.15.0"
-
 [build-dependencies]
 # Templates
 yarte = "0.15.6"

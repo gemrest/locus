@@ -4,6 +4,4 @@ services:
       - "1965:1965"
     volumes:
       - "./.locus:/locus/.locus"
-    environment:
-      - "PORT=1965"
     image: "fuwn/locus:latest"
