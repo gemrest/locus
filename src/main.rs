@@ -145,6 +145,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   mount_file!(router, "/robots.txt", "robots.txt");
   mount_file!(router, "/favicon.txt", "favicon.txt");
   mount_page!(router, "/", "index");
+  mount_page!(router, "", "index");
   mount_page!(router, "/contact", "contact");
   mount_page!(router, "/donate", "donate");
   mount_page!(router, "/gemini", "gemini");
