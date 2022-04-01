@@ -93,21 +93,26 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       url.to_string(),
     );
 
-    let previous_database = (*DATABASE.lock().unwrap()).get::<i32>(url.path());
+    let mut url_path = url.path();
+    if url.path().is_empty() {
+      url_path = "/";
+    }
+
+    let previous_database = (*DATABASE.lock().unwrap()).get::<i32>(url_path);
 
     match previous_database {
       None => {
         (*DATABASE.lock().unwrap())
-          .set::<i32>(url.path(), &0)
+          .set::<i32>(url_path, &0)
           .unwrap();
       }
       Some(_) => {}
     }
 
-    let new_database = (*DATABASE.lock().unwrap()).get::<i32>(url.path());
+    let new_database = (*DATABASE.lock().unwrap()).get::<i32>(url_path);
 
     (*DATABASE.lock().unwrap())
-      .set(url.path(), &(new_database.unwrap() + 1))
+      .set(url_path, &(new_database.unwrap() + 1))
       .unwrap();
   }));
   router.set_error_handler(Box::new(|_| {
