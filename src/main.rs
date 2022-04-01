@@ -93,10 +93,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       url.to_string(),
     );
 
-    let mut url_path = url.path();
-    if url.path().is_empty() {
-      url_path = "/";
-    }
+    let url_path = if url.path().is_empty() {
+      "/"
+    } else {
+      url.path()
+    };
 
     let previous_database = (*DATABASE.lock().unwrap()).get::<i32>(url_path);
 
