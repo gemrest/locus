@@ -19,7 +19,11 @@ I have decided to move my personal websites -- and some other projects -- over t
 
 ### CLIENTS
 
-Amfora: A very nice, feature-rich, and easy-to-use CLI client for Gemini, my client of choice.
+Lagrange: An amazing desktop GUI client for Gemini and Gopher that is just amazing. My #1 client of choice.
+
+=> gemini://skyjake.fi/lagrange/ Lagrange
+
+Amfora: A very nice, feature-rich, and easy-to-use CLI client for Gemini, my CLI client of choice.
 
 => https://github.com/makeworld-the-better-one/amfora Amfora
 
@@ -27,7 +31,7 @@ Bollux: A fun little CLI client for Gemini written in Bash! I mostly use this fo
 
 => https://sr.ht/~acdw/bollux/ Bollux
 
-Elaho: An elegant IOS Gemini client.
+Elaho: An elegant IOS Gemini client which I personally use.
 
 => gemini://elaho.glv.one
 
