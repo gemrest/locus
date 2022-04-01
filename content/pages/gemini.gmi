@@ -17,6 +17,12 @@ I have decided to move my personal websites -- and some other projects -- over t
 
 ## RESOURCES
 
+### Utilities
+
+GemRest: A development studio focused on delivering high performance, Gemini-situated utilities. Run by Fuwn (me)!
+
+=> gemini://gem.rest GemRest
+
 ### CLIENTS
 
 Lagrange: An amazing desktop GUI client for Gemini and Gopher that is just amazing. My #1 client of choice.
