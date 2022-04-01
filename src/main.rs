@@ -72,7 +72,13 @@ struct Main<'a> {
 }
 
 fn hits_from_route(route: &str) -> i32 {
-  (*DATABASE.lock().unwrap()).get::<i32>(route).unwrap()
+  if let Ok(database) = DATABASE.lock() {
+    (*database)
+      .get::<i32>(if route.is_empty() { "/" } else { route })
+      .unwrap()
+  } else {
+    0
+  }
 }
 
 #[windmark::main]
