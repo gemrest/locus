@@ -17,7 +17,7 @@ I have decided to move my personal websites -- and some other projects -- over t
 
 ## RESOURCES
 
-### Utilities
+### UTILITIES
 
 GemRest: A development studio focused on delivering high performance, Gemini-situated utilities. Run by Fuwn (me)!
 
@@ -43,11 +43,15 @@ Elaho: An elegant IOS Gemini client which I personally use.
 
 ### PROXIES
 
-Capybara: A Gemini to HTTP proxy, simple and just works.
+September: A high performance Gemini-to-HTTP proxy written in Rust, focused on accessibility and speed.
 
-=> https://github.com/fuwn/capybara Capybara
+=> https://github.com/gemrest/september September
 
-Mozz.us and Vuples.one Portals: Great Gemini to HTTP proxies, simple and intuitive.
+Capybara: A Gemini-to-HTTP proxy, simple and just works. (No longer in active development in favour of September, check README)
+
+=> https://github.com/gemrest/capybara Capybara
+
+Mozz.us and Vuples.one Portals: Great Gemini-to-HTTP proxies, simple and intuitive.
 
 => https://portal.mozz.us portal.mozz.us
 => https://proxy.vulpes.one proxy.vulpes.one
@@ -73,6 +77,12 @@ Gig: A Golang framework for developing and deploying dynamic (or static) Gemini 
 Agate: A static Gemini server written in Rust! I'd recommend this to just about anyone!
 
 => gemini://gem.limpet.net/agate Agate
+
+### WINDMARK MODULES
+
+Windmark Comments: A comment engine module for Windmark
+
+=> https://github.com/gemrest/windmark-comments Windmark Comments
 
 ### CAPSULES
 
