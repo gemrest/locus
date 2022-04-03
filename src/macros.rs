@@ -24,11 +24,16 @@ macro_rules! mount_page {
       Box::new(|context| {
         Response::Success(
           Main {
-            body:   include_str!(concat!("../content/pages/", $file, ".gmi"))
-              .into(),
-            hits:   &crate::hits_from_route(context.url.path()),
-            quote:  QUOTES.choose(&mut rand::thread_rng()).unwrap(),
-            commit: &format!("/tree/{}", env!("VERGEN_GIT_SHA")),
+            body:        include_str!(concat!(
+              "../content/pages/",
+              $file,
+              ".gmi"
+            ))
+            .into(),
+            hits:        &crate::hits_from_route(context.url.path()),
+            quote:       QUOTES.choose(&mut rand::thread_rng()).unwrap(),
+            commit:      &format!("/tree/{}", env!("VERGEN_GIT_SHA")),
+            mini_commit: env!("VERGEN_GIT_SHA").get(0..5).unwrap_or("UNKNOWN"),
           }
           .to_string(),
         )
@@ -57,10 +62,11 @@ macro_rules! success {
   ($body:expr, $context:ident) => {
     Response::Success(
       Main {
-        body:   &$body,
-        hits:   &crate::hits_from_route($context.url.path()),
-        quote:  QUOTES.choose(&mut rand::thread_rng()).unwrap(),
-        commit: &format!("/tree/{}", env!("VERGEN_GIT_SHA")),
+        body:        &$body,
+        hits:        &crate::hits_from_route($context.url.path()),
+        quote:       QUOTES.choose(&mut rand::thread_rng()).unwrap(),
+        commit:      &format!("/tree/{}", env!("VERGEN_GIT_SHA")),
+        mini_commit: env!("VERGEN_GIT_SHA").get(0..5).unwrap_or("UNKNOWN"),
       }
       .to_string(),
     )

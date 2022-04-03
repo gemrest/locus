@@ -65,10 +65,11 @@ static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
 #[derive(Template)]
 #[template(path = "main")]
 struct Main<'a> {
-  body:   &'a str,
-  hits:   &'a i32,
-  quote:  &'a str,
-  commit: &'a str,
+  body:        &'a str,
+  hits:        &'a i32,
+  quote:       &'a str,
+  commit:      &'a str,
+  mini_commit: &'a str,
 }
 
 fn hits_from_route(route: &str) -> i32 {
