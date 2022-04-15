@@ -271,5 +271,28 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }),
   );
 
+  track_mount(
+    &mut router,
+    "/remarks",
+    "Fuwn's remarks",
+    Box::new(|context| {
+      let remarks: Vec<String> =
+        serde_json::from_str(include_str!("../content/json/remarks.json"))
+          .unwrap();
+
+      success!(
+        format!(
+          "# REMARKS\n\n{}",
+          remarks
+            .into_iter()
+            .map(|r| format!("* {}", r))
+            .collect::<Vec<String>>()
+            .join("\n")
+        ),
+        context
+      )
+    }),
+  );
+
   router.run().await
 }
