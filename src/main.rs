@@ -32,6 +32,7 @@
 mod constants;
 mod macros;
 mod modules;
+mod route;
 
 #[macro_use]
 extern crate log;
@@ -41,6 +42,7 @@ use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
 use constants::QUOTES;
 use pickledb::PickleDb;
 use rand::seq::SliceRandom;
+use route::track_mount;
 use tokio::time::Instant;
 use windmark::{Response, Router};
 use yarte::Template;
@@ -72,26 +74,6 @@ struct Main<'a> {
   quote:       &'a str,
   commit:      &'a str,
   mini_commit: &'a str,
-}
-
-fn hits_from_route(route: &str) -> i32 {
-  if let Ok(database) = DATABASE.lock() {
-    (*database)
-      .get::<i32>(if route.is_empty() { "/" } else { route })
-      .unwrap()
-  } else {
-    0
-  }
-}
-
-fn track_mount(
-  router: &mut Router,
-  route: &str,
-  description: &str,
-  handler: windmark::handler::RouteResponse,
-) {
-  (*ROUTES.lock().unwrap()).insert(route.to_string(), description.to_string());
-  router.mount(route, handler);
 }
 
 #[windmark::main]

@@ -22,7 +22,7 @@ macro_rules! success {
     Response::Success(
       Main {
         body:        &$body,
-        hits:        &crate::hits_from_route($context.url.path()),
+        hits:        &crate::route::hits_from($context.url.path()),
         quote:       QUOTES.choose(&mut rand::thread_rng()).unwrap(),
         commit:      &format!("/tree/{}", env!("VERGEN_GIT_SHA")),
         mini_commit: env!("VERGEN_GIT_SHA").get(0..5).unwrap_or("UNKNOWN"),
