@@ -123,6 +123,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     )
   }));
   router.set_fix_path(true);
+
+  info!(
+    "creating router took {}ms",
+    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
+  );
+  time_mount = Instant::now();
+
   track_mount(
     &mut router,
     "/uptime",
@@ -143,56 +150,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       ))
     }),
   );
-
-  info!(
-    "preliminary mounts took {}ms",
-    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
-  );
-  time_mount = Instant::now();
-
-  router.attach_stateless(modules::multi_blog);
-
-  info!(
-    "blog mounts took {}ms",
-    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
-  );
-  time_mount = Instant::now();
-
-  mount_file!(
-    router,
-    "/robots.txt",
-    "Crawler traffic manager, for robots, not humans",
-    "robots.txt"
-  );
-  mount_file!(
-    router,
-    "/favicon.txt",
-    "This Gemini capsule's icon",
-    "favicon.txt"
-  );
-  mount_page!(router, "/", "This Gemini capsule's homepage", "index");
-  mount_page!(router, "/contact", "Many ways to contact Fuwn", "contact");
-  mount_page!(router, "/donate", "Many ways to donate to Fuwn", "donate");
-  mount_page!(
-    router,
-    "/gemini",
-    "Information and resources for the Gemini protocol",
-    "gemini"
-  );
-  mount_page!(
-    router,
-    "/gopher",
-    "Information and resources for the Gopher protocol",
-    "gopher"
-  );
-  mount_page!(router, "/interests", "A few interests of Fuwn", "interests");
-  mount_page!(router, "/skills", "A few skills of Fuwn", "skills");
-
-  info!(
-    "static mounts took {}ms",
-    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
-  );
-
   track_mount(
     &mut router,
     "/sitemap",
@@ -271,6 +228,55 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         context
       )
     }),
+  );
+
+  info!(
+    "preliminary mounts took {}ms",
+    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
+  );
+  time_mount = Instant::now();
+
+  router.attach_stateless(modules::multi_blog);
+
+  info!(
+    "blog mounts took {}ms",
+    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
+  );
+  time_mount = Instant::now();
+
+  mount_file!(
+    router,
+    "/robots.txt",
+    "Crawler traffic manager, for robots, not humans",
+    "robots.txt"
+  );
+  mount_file!(
+    router,
+    "/favicon.txt",
+    "This Gemini capsule's icon",
+    "favicon.txt"
+  );
+  mount_page!(router, "/", "This Gemini capsule's homepage", "index");
+  mount_page!(router, "/contact", "Many ways to contact Fuwn", "contact");
+  mount_page!(router, "/donate", "Many ways to donate to Fuwn", "donate");
+  mount_page!(
+    router,
+    "/gemini",
+    "Information and resources for the Gemini protocol",
+    "gemini"
+  );
+  mount_page!(
+    router,
+    "/gopher",
+    "Information and resources for the Gopher protocol",
+    "gopher"
+  );
+  mount_page!(router, "/interests", "A few interests of Fuwn", "interests");
+  mount_page!(router, "/skills", "A few skills of Fuwn", "skills");
+
+  info!(
+    "static mounts took {}ms",
+    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
   );
 
   router.run().await
