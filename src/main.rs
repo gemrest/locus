@@ -36,7 +36,7 @@ mod modules;
 #[macro_use]
 extern crate log;
 
-use std::{lazy::SyncLazy, sync::Mutex};
+use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
 
 use constants::QUOTES;
 use pickledb::PickleDb;
@@ -61,8 +61,8 @@ static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
     }
   })
 });
-static ROUTES: SyncLazy<Mutex<Vec<String>>> =
-  SyncLazy::new(|| Mutex::new(vec![]));
+static ROUTES: SyncLazy<Mutex<HashMap<String, String>>> =
+  SyncLazy::new(|| Mutex::new(HashMap::new()));
 
 #[derive(Template)]
 #[template(path = "main")]
@@ -87,9 +87,10 @@ fn hits_from_route(route: &str) -> i32 {
 fn track_mount(
   router: &mut Router,
   route: &str,
+  description: &str,
   handler: windmark::handler::RouteResponse,
 ) {
-  (*ROUTES.lock().unwrap()).push(route.to_string());
+  (*ROUTES.lock().unwrap()).insert(route.to_string(), description.to_string());
   router.mount(route, handler);
 }
 
@@ -146,6 +147,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   track_mount(
     &mut router,
     "/uptime",
+    "The uptime of Locus, in seconds (A.K.A., The Locus Epoch)",
     Box::new(move |context| {
       success!(
         &format!("# UPTIME\n\n{} seconds", uptime.elapsed().as_secs()),
@@ -168,15 +170,35 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   );
   time_mount = Instant::now();
 
-  mount_file!(router, "/robots.txt", "robots.txt");
-  mount_file!(router, "/favicon.txt", "favicon.txt");
-  mount_page!(router, "/", "index");
-  mount_page!(router, "/contact", "contact");
-  mount_page!(router, "/donate", "donate");
-  mount_page!(router, "/gemini", "gemini");
-  mount_page!(router, "/gopher", "gopher");
-  mount_page!(router, "/interests", "interests");
-  mount_page!(router, "/skills", "skills");
+  mount_file!(
+    router,
+    "/robots.txt",
+    "Crawler traffic manager, for robots, not humans",
+    "robots.txt"
+  );
+  mount_file!(
+    router,
+    "/favicon.txt",
+    "This Gemini capsule's icon",
+    "favicon.txt"
+  );
+  mount_page!(router, "/", "This Gemini capsule's homepage", "index");
+  mount_page!(router, "/contact", "Many ways to contact Fuwn", "contact");
+  mount_page!(router, "/donate", "Many ways to donate to Fuwn", "donate");
+  mount_page!(
+    router,
+    "/gemini",
+    "Information and resources for the Gemini protocol",
+    "gemini"
+  );
+  mount_page!(
+    router,
+    "/gopher",
+    "Information and resources for the Gopher protocol",
+    "gopher"
+  );
+  mount_page!(router, "/interests", "A few interests of Fuwn", "interests");
+  mount_page!(router, "/skills", "A few skills of Fuwn", "skills");
 
   info!(
     "static mounts took {}ms",
@@ -186,13 +208,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   track_mount(
     &mut router,
     "/sitemap",
+    "A map of all publicly available routes on this Gemini capsule",
     Box::new(|context| {
       success!(
         format!(
           "# SITEMAP\n\n{}",
           (*ROUTES.lock().unwrap())
             .iter()
-            .map(|r| format!("=> {}", r))
+            .map(|(r, d)| format!("=> {} {}", r, d))
             .collect::<Vec<_>>()
             .join("\n")
         ),

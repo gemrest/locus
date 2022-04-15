@@ -106,6 +106,7 @@ pub fn multi_blog(router: &mut windmark::Router) {
   track_mount(
     router,
     "/blog",
+    "Fuwn's blogs",
     Box::new(move |context| {
       success!(
         &format!(
@@ -135,10 +136,12 @@ pub fn multi_blog(router: &mut windmark::Router) {
     let fixed_blog_name = blog.replace(' ', "_").to_lowercase();
     let entries_clone = entries.clone();
     let fixed_blog_name_clone = fixed_blog_name.clone();
+    let blog_clone = blog.clone();
 
     track_mount(
       router,
       &format!("/blog/{}", fixed_blog_name),
+      &format!("{} ― One of Fuwn's blogs", &blog),
       Box::new(move |context| {
         success!(
           &format!(
@@ -173,6 +176,10 @@ pub fn multi_blog(router: &mut windmark::Router) {
       track_mount(
         router,
         &format!("/blog/{}/{}", fixed_blog_name, title.to_lowercase()),
+        &format!(
+          "{}, {} ― An entry to one of Fuwn's blogs",
+          title, blog_clone
+        ),
         Box::new(move |context| success!(contents, context)),
       );
     }

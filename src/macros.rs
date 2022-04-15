@@ -18,8 +18,9 @@
 
 #[macro_export]
 macro_rules! mount_page {
-  ($router:ident, $at:literal, $file:literal) => {
-    (*crate::ROUTES.lock().unwrap()).push($at.to_string());
+  ($router:ident, $at:literal, $description:literal, $file:literal) => {
+    (*crate::ROUTES.lock().unwrap())
+      .insert($at.to_string(), $description.to_string());
 
     ($router).mount(
       $at,
@@ -46,8 +47,9 @@ macro_rules! mount_page {
 
 #[macro_export]
 macro_rules! mount_file {
-  ($router:ident, $at:literal, $file:literal) => {
-    (*crate::ROUTES.lock().unwrap()).push($at.to_string());
+  ($router:ident, $at:literal, $description:literal, $file:literal) => {
+    (*crate::ROUTES.lock().unwrap())
+      .insert($at.to_string(), $description.to_string());
 
     ($router).mount(
       $at,
