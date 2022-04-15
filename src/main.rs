@@ -61,6 +61,8 @@ static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
     }
   })
 });
+static ROUTES: SyncLazy<Mutex<Vec<String>>> =
+  SyncLazy::new(|| Mutex::new(vec![]));
 
 #[derive(Template)]
 #[template(path = "main")]
@@ -80,6 +82,15 @@ fn hits_from_route(route: &str) -> i32 {
   } else {
     0
   }
+}
+
+fn track_mount(
+  router: &mut Router,
+  route: &str,
+  handler: windmark::handler::RouteResponse,
+) {
+  (*ROUTES.lock().unwrap()).push(route.to_string());
+  router.mount(route, handler);
 }
 
 #[windmark::main]
@@ -132,7 +143,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     )
   }));
   router.set_fix_path(true);
-  router.mount(
+  track_mount(
+    &mut router,
     "/uptime",
     Box::new(move |context| {
       success!(
@@ -169,6 +181,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   info!(
     "static mounts took {}ms",
     time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
+  );
+
+  track_mount(
+    &mut router,
+    "/sitemap",
+    Box::new(|context| {
+      success!(
+        format!(
+          "# SITEMAP\n\n{}",
+          (*ROUTES.lock().unwrap())
+            .iter()
+            .map(|r| format!("=> {}", r))
+            .collect::<Vec<_>>()
+            .join("\n")
+        ),
+        context
+      )
+    }),
   );
 
   router.run().await

@@ -25,7 +25,7 @@ use std::{
 use rand::seq::SliceRandom;
 use windmark::Response;
 
-use crate::{success, Main, QUOTES};
+use crate::{success, track_mount, Main, QUOTES};
 
 #[allow(clippy::too_many_lines)]
 pub fn multi_blog(router: &mut windmark::Router) {
@@ -103,7 +103,8 @@ pub fn multi_blog(router: &mut windmark::Router) {
 
   let blog_clone = blogs.clone();
 
-  router.mount(
+  track_mount(
+    router,
     "/blog",
     Box::new(move |context| {
       success!(
@@ -135,7 +136,8 @@ pub fn multi_blog(router: &mut windmark::Router) {
     let entries_clone = entries.clone();
     let fixed_blog_name_clone = fixed_blog_name.clone();
 
-    router.mount(
+    track_mount(
+      router,
       &format!("/blog/{}", fixed_blog_name),
       Box::new(move |context| {
         success!(
@@ -168,7 +170,8 @@ pub fn multi_blog(router: &mut windmark::Router) {
     );
 
     for (title, contents) in entries {
-      router.mount(
+      track_mount(
+        router,
         &format!("/blog/{}/{}", fixed_blog_name, title.to_lowercase()),
         Box::new(move |context| success!(contents, context)),
       );
