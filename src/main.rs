@@ -233,5 +233,43 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }),
   );
 
+  track_mount(
+    &mut router,
+    "/search",
+    "A search engine for this Gemini capsule",
+    Box::new(|context| {
+      let mut query_pairs = context.url.query_pairs();
+      let mut response =
+        String::from("# SEARCH\n\n=> /search?action=go Search!");
+
+      if let Some(query) = query_pairs.next() {
+        if query.0 == "action" && query.1 == "go" {
+          return Response::Input(
+            "What would you like to search for?".to_string(),
+          );
+        }
+
+        let results = (*ROUTES.lock().unwrap())
+          .iter()
+          .map(|(r, d)| format!("=> {} {}", r, d))
+          .filter(|r| r.to_lowercase().contains(&query.0.to_string()))
+          .collect::<Vec<_>>()
+          .join("\n");
+
+        response += &format!(
+          "\n\nYou searched for \"{}\"!\n\n## RESULTS\n\n{}",
+          query.0,
+          if results.is_empty() {
+            "There are no results for your query...".to_string()
+          } else {
+            results
+          },
+        );
+      }
+
+      success!(response, context)
+    }),
+  );
+
   router.run().await
 }
