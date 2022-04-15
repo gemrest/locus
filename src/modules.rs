@@ -177,7 +177,7 @@ pub fn multi_blog(router: &mut windmark::Router) {
         &format!("/blog/{}/{}", fixed_blog_name, title.to_lowercase()),
         &format!(
           "{}, {} ― An entry to one of Fuwn's blogs",
-          title, blog_clone
+          blog_clone, title
         ),
         Box::new(move |context| success!(contents, context)),
       );
