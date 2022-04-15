@@ -23,7 +23,15 @@ macro_rules! success {
       Main {
         body:        &$body,
         hits:        &crate::route::hits_from($context.url.path()),
-        quote:       QUOTES.choose(&mut rand::thread_rng()).unwrap(),
+        quote:       {
+          use rand::seq::SliceRandom;
+
+          let quotes: Vec<String> =
+            serde_json::from_str(include_str!("../content/json/quotes.json"))
+              .unwrap();
+
+          &quotes.choose(&mut rand::thread_rng()).unwrap().to_string()
+        },
         commit:      &format!("/tree/{}", env!("VERGEN_GIT_SHA")),
         mini_commit: env!("VERGEN_GIT_SHA").get(0..5).unwrap_or("UNKNOWN"),
       }

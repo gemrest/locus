@@ -29,7 +29,6 @@
 #![recursion_limit = "128"]
 #![allow(clippy::cast_precision_loss)]
 
-mod constants;
 mod macros;
 mod modules;
 mod route;
@@ -39,9 +38,7 @@ extern crate log;
 
 use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
 
-use constants::QUOTES;
 use pickledb::PickleDb;
-use rand::seq::SliceRandom;
 use route::track_mount;
 use tokio::time::Instant;
 use windmark::{Response, Router};

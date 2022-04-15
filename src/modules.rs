@@ -22,10 +22,9 @@ use std::{
   io::Read,
 };
 
-use rand::seq::SliceRandom;
 use windmark::Response;
 
-use crate::{success, track_mount, Main, QUOTES};
+use crate::{success, track_mount, Main};
 
 #[allow(clippy::too_many_lines)]
 pub fn multi_blog(router: &mut windmark::Router) {
