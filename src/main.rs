@@ -273,6 +273,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   );
   mount_page!(router, "/interests", "A few interests of Fuwn", "interests");
   mount_page!(router, "/skills", "A few skills of Fuwn", "skills");
+  mount_page!(
+    router,
+    "/licensing",
+    "The licensing terms of this Gemini capsule",
+    "licensing"
+  );
 
   info!(
     "static mounts took {}ms",

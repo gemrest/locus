@@ -1,0 +1,21 @@
+# LICENSING
+
+Unless otherwise noted:
+
+* Text: CC BY-SA 4.0
+* Code: CC0
+* Photos: GNU General Public License v3.0
+
+## LICENSES
+
+=> https://creativecommons.org/licenses/by-sa/4.0/ Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+=> https://creativecommons.org/share-your-work/public-domain/cc0 CC0
+=> https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License v3.0
+
+## NOTICES
+
+These licensing terms only apply to the content found in Gemini responses produced by this capsule. The source code of this Gemini capsule is licensed with The GNU General Public License v3.0.
+
+These licensing terms have been adapted from Hannes Hauswedell's homepage.
+
+=> https://hannes.hauswedell.net/ Hannes Hauswedell's homepage
