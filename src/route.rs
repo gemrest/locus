@@ -16,6 +16,19 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
+pub struct Route {
+  pub description: String,
+  pub text_cache:  String,
+}
+impl Route {
+  pub fn new(description: &str) -> Self {
+    Self {
+      description: description.to_string(),
+      text_cache:  "".to_string(),
+    }
+  }
+}
+
 pub fn hits_from(route: &str) -> i32 {
   if let Ok(database) = crate::DATABASE.lock() {
     (*database)
@@ -33,6 +46,6 @@ pub fn track_mount(
   handler: windmark::handler::RouteResponse,
 ) {
   (*crate::ROUTES.lock().unwrap())
-    .insert(route.to_string(), description.to_string());
+    .insert(route.to_string(), Route::new(description));
   router.mount(route, handler);
 }

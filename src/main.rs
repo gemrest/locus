@@ -60,7 +60,7 @@ static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
     }
   })
 });
-static ROUTES: SyncLazy<Mutex<HashMap<String, String>>> =
+static ROUTES: SyncLazy<Mutex<HashMap<String, route::Route>>> =
   SyncLazy::new(|| Mutex::new(HashMap::new()));
 
 #[derive(Template)]
@@ -160,7 +160,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
           "# SITEMAP\n\n{}",
           (*ROUTES.lock().unwrap())
             .iter()
-            .map(|(r, d)| format!("=> {} {}", r, d))
+            .map(|(r, d)| format!("=> {} {}", r, d.description))
             .collect::<Vec<_>>()
             .join("\n")
         ),
@@ -187,7 +187,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let results = (*ROUTES.lock().unwrap())
           .iter()
-          .map(|(r, d)| format!("=> {} {}", r, d))
+          .map(|(r, d)| format!("=> {} {}", r, d.description))
           .filter(|r| r.to_lowercase().contains(&query.0.to_string()))
           .collect::<Vec<_>>()
           .join("\n");
