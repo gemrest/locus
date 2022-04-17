@@ -62,7 +62,7 @@ pub fn cache(context: &windmark::returnable::RouteContext<'_>, response: &str) {
     SyncLazy::new(|| Mutex::new(Instant::now()));
 
   if (*LAST_CACHED.lock().unwrap()).elapsed()
-    >= std::time::Duration::from_secs(1)
+    >= std::time::Duration::from_secs(crate::CACHE_RATE)
     || (*ROUTES.lock().unwrap())
       .get(context.url.path())
       .is_some_with(|&r| r.text_cache.is_empty())

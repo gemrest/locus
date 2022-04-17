@@ -44,6 +44,8 @@ use tokio::time::Instant;
 use windmark::{Response, Router};
 use yarte::Template;
 
+const CACHE_RATE: u64 = 60 * 5;
+
 static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
   Mutex::new({
     if std::fs::File::open(".locus/locus.db").is_ok() {
