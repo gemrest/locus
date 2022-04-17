@@ -49,10 +49,10 @@ macro_rules! mount_page {
     ($router).mount(
       $at,
       Box::new(|context| {
-        success!(
-          include_str!(concat!("../content/pages/", $file, ".gmi")),
-          context
-        )
+        let content = include_str!(concat!("../content/pages/", $file, ".gmi"));
+
+        crate::route::cache(&context, &content);
+        success!(content, context)
       }),
     );
   };

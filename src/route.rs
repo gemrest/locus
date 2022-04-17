@@ -57,7 +57,6 @@ pub fn track_mount(
   router.mount(route, handler);
 }
 
-#[allow(unused)]
 pub fn cache(context: &windmark::returnable::RouteContext<'_>, response: &str) {
   static LAST_CACHED: SyncLazy<Mutex<Instant>> =
     SyncLazy::new(|| Mutex::new(Instant::now()));
