@@ -16,6 +16,13 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
+use std::{lazy::SyncLazy, sync::Mutex};
+
+use tokio::time::Instant;
+
+use crate::ROUTES;
+
+#[derive(Debug)]
 pub struct Route {
   pub description: String,
   pub text_cache:  String,
@@ -48,4 +55,36 @@ pub fn track_mount(
   (*crate::ROUTES.lock().unwrap())
     .insert(route.to_string(), Route::new(description));
   router.mount(route, handler);
+}
+
+#[allow(unused)]
+pub fn cache(context: &windmark::returnable::RouteContext<'_>, response: &str) {
+  static LAST_CACHED: SyncLazy<Mutex<Instant>> =
+    SyncLazy::new(|| Mutex::new(Instant::now()));
+
+  if (*LAST_CACHED.lock().unwrap()).elapsed()
+    >= std::time::Duration::from_secs(1)
+    || (*ROUTES.lock().unwrap())
+      .get(context.url.path())
+      .is_some_with(|&r| r.text_cache.is_empty())
+  {
+    (*LAST_CACHED.lock().unwrap()) = Instant::now();
+
+    if let Some(route) = (*ROUTES.lock().unwrap()).get_mut(context.url.path()) {
+      route.text_cache = response.to_string();
+      info!("cache set for {}", context.url.path());
+    } else {
+      warn!(
+        "cache could not be set for {} as it is not being tracked",
+        context.url.path()
+      );
+    }
+
+    trace!("recache for {}", context.url.path());
+  } else {
+    trace!(
+      "no cache, with last: {:?}",
+      (*ROUTES.lock().unwrap()).get(context.url.path())
+    );
+  }
 }
