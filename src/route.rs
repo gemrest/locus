@@ -82,10 +82,5 @@ pub fn cache(context: &windmark::returnable::RouteContext<'_>, response: &str) {
     }
 
     trace!("recache for {}", context.url.path());
-  } else {
-    trace!(
-      "no cache, with last: {:?}",
-      (*ROUTES.lock().unwrap()).get(context.url.path())
-    );
   }
 }
