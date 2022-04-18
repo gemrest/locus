@@ -46,7 +46,7 @@ use tokio::time::Instant;
 use windmark::{Response, Router};
 use yarte::Template;
 
-const CACHE_RATE: u64 = 60 * 5;
+const SEARCH_SIZE: usize = 10;
 
 static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
   Mutex::new({
@@ -209,7 +209,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
               )
               .parse_query(&query.0.to_string())
               .unwrap(),
-              &tantivy::collector::TopDocs::with_limit(10),
+              &tantivy::collector::TopDocs::with_limit(SEARCH_SIZE),
             )
             .unwrap();
 

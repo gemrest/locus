@@ -22,6 +22,8 @@ use tokio::time::Instant;
 
 use crate::ROUTES;
 
+pub const CACHE_RATE: u64 = 60 * 5;
+
 #[derive(Debug)]
 pub struct Route {
   pub description: String,
@@ -62,7 +64,7 @@ pub fn cache(context: &windmark::returnable::RouteContext<'_>, response: &str) {
     SyncLazy::new(|| Mutex::new(Instant::now()));
 
   if (*LAST_CACHED.lock().unwrap()).elapsed()
-    >= std::time::Duration::from_secs(crate::CACHE_RATE)
+    >= std::time::Duration::from_secs(CACHE_RATE)
     || (*ROUTES.lock().unwrap())
       .get(context.url.path())
       .is_some_and(|&r| r.text_cache.is_empty())

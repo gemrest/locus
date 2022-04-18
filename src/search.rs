@@ -21,6 +21,8 @@ use std::{lazy::SyncLazy, sync::Mutex};
 use tantivy::schema;
 use tempfile::TempDir;
 
+const SEARCH_INDEX_SIZE: usize = 10_000_000;
+
 pub static INDEX_PATH: SyncLazy<Mutex<TempDir>> =
   SyncLazy::new(|| Mutex::new(TempDir::new().unwrap()));
 pub static SCHEMA: SyncLazy<Mutex<tantivy::schema::Schema>> =
@@ -47,7 +49,7 @@ pub static INDEX: SyncLazy<Mutex<tantivy::Index>> = SyncLazy::new(|| {
 });
 pub static INDEX_WRITER: SyncLazy<Mutex<tantivy::IndexWriter>> =
   SyncLazy::new(|| {
-    Mutex::new((*INDEX.lock().unwrap()).writer(10_000_000).unwrap())
+    Mutex::new((*INDEX.lock().unwrap()).writer(SEARCH_INDEX_SIZE).unwrap())
   });
 
 pub fn index() {
@@ -84,6 +86,8 @@ pub fn index() {
       time.elapsed().as_nanos() as f64 / 1_000_000.0
     );
 
-    std::thread::sleep(std::time::Duration::from_secs(1));
+    std::thread::sleep(std::time::Duration::from_secs(
+      crate::route::CACHE_RATE,
+    ));
   }
 }
