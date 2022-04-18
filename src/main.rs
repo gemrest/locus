@@ -287,7 +287,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         format!(
           "# REMARKS\n\n{}",
           remarks
-            .into_iter()
+            .iter()
             .map(|r| format!("* {}", r))
             .collect::<Vec<String>>()
             .join("\n")

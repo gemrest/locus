@@ -18,7 +18,9 @@
 
 #[macro_export]
 macro_rules! success {
-  ($body:expr, $context:ident) => {
+  ($body:expr, $context:ident) => {{
+    $crate::route::cache(&$context, &$body);
+
     Response::Success(
       Main {
         body:        &$body,
@@ -37,7 +39,7 @@ macro_rules! success {
       }
       .to_string(),
     )
-  };
+  }};
 }
 
 #[macro_export]
