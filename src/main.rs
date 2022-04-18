@@ -178,33 +178,96 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     "/search",
     "A search engine for this Gemini capsule",
     Box::new(|context| {
-      let mut query_pairs = context.url.query_pairs();
       let mut response =
         String::from("# SEARCH\n\n=> /search?action=go Search!");
 
-      if let Some(query) = query_pairs.next() {
+      if let Some(query) = context.url.query_pairs().next() {
         if query.0 == "action" && query.1 == "go" {
           return Response::Input(
             "What would you like to search for?".to_string(),
           );
         }
 
-        let results = (*ROUTES.lock().unwrap())
-          .iter()
-          .map(|(r, d)| format!("=> {} {}", r, d.description))
-          .filter(|r| r.to_lowercase().contains(&query.0.to_string()))
-          .collect::<Vec<_>>()
-          .join("\n");
+        {
+          let path = (*SCHEMA.lock().unwrap()).get_field("path").unwrap();
+          let description =
+            (*SCHEMA.lock().unwrap()).get_field("description").unwrap();
+          let content = (*SCHEMA.lock().unwrap()).get_field("content").unwrap();
+          let mut results = String::new();
 
-        response += &format!(
-          "\n\nYou searched for \"{}\"!\n\n## RESULTS\n\n{}",
-          query.0,
-          if results.is_empty() {
-            "There are no results for your query...".to_string()
-          } else {
-            results
-          },
-        );
+          let searcher = (*INDEX.lock().unwrap())
+            .reader_builder()
+            .reload_policy(tantivy::ReloadPolicy::OnCommit)
+            .try_into()
+            .unwrap()
+            .searcher();
+          let top_docs = searcher
+            .search(
+              &tantivy::query::QueryParser::for_index(
+                &(*INDEX.lock().unwrap()),
+                vec![path, description, content],
+              )
+              .parse_query(&query.0.to_string())
+              .unwrap(),
+              &tantivy::collector::TopDocs::with_limit(10),
+            )
+            .unwrap();
+
+          for (_score, document_address) in top_docs {
+            let retrieved_document = searcher.doc(document_address).unwrap();
+
+            macro_rules! text {
+              ($field:ident) => {{
+                retrieved_document
+                  .get_first($field)
+                  .unwrap()
+                  .as_text()
+                  .unwrap()
+              }};
+              ($document:ident, $field:ident) => {{
+                $document.get_first($field).unwrap().as_text().unwrap()
+              }};
+            }
+
+            results +=
+              &format!("=> {} {}{}\n", text!(path), text!(description), {
+                let mut lines = retrieved_document
+                  .get_first(content)
+                  .unwrap()
+                  .as_text()
+                  .unwrap()
+                  .lines()
+                  .skip(2);
+
+                lines.next().map_or_else(
+                  || "".to_string(),
+                  |first_line| {
+                    format!(
+                      "\n> ... {}\n> {}\n> {} ...",
+                      first_line,
+                      lines.next().unwrap_or(""),
+                      lines.next().unwrap_or("")
+                    )
+                  },
+                )
+              });
+          }
+
+          response += &format!(
+            "\n\nYou searched for \"{}\"!\n\n## RESULTS\n\n{}\n\nIn need of \
+             more results? This search engine populates its index with route \
+             paths and route descriptions on startup. However, route content \
+             isn't populated until the route is first visited. After a \
+             route's first visit, it is updated after every five minutes, at \
+             time of visit.",
+            query.0,
+            if results.is_empty() {
+              "There are no results for your query...".to_string()
+            } else {
+              results.trim_end().to_string()
+            },
+          );
+        }
       }
 
       success!(response, context)
@@ -290,42 +353,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   );
 
   std::thread::spawn(search::index);
-
-  std::thread::spawn(|| {
-    loop {
-      std::thread::sleep(std::time::Duration::from_secs(1));
-
-      let path = (*SCHEMA.lock().unwrap()).get_field("path").unwrap();
-      let description =
-        (*SCHEMA.lock().unwrap()).get_field("description").unwrap();
-      let content = (*SCHEMA.lock().unwrap()).get_field("content").unwrap();
-
-      let reader = (*INDEX.lock().unwrap())
-        .reader_builder()
-        .reload_policy(tantivy::ReloadPolicy::OnCommit)
-        .try_into()
-        .unwrap();
-      let searcher = reader.searcher();
-      let query_parser = tantivy::query::QueryParser::for_index(
-        &(*INDEX.lock().unwrap()),
-        vec![path, description, content],
-      );
-      let query = query_parser.parse_query("Node.js").unwrap();
-      let top_docs = searcher
-        .search(&query, &tantivy::collector::TopDocs::with_limit(10))
-        .unwrap();
-
-      for (score, doc_address) in top_docs {
-        let retrieved_doc = searcher.doc(doc_address).unwrap();
-
-        println!(
-          "{}: {}",
-          score,
-          (*SCHEMA.lock().unwrap()).to_json(&retrieved_doc)
-        );
-      }
-    }
-  });
 
   router.run().await
 }
