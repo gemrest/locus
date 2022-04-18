@@ -22,7 +22,7 @@ macro_rules! success {
     Response::Success(
       Main {
         body:        &$body,
-        hits:        &crate::route::hits_from($context.url.path()),
+        hits:        &$crate::route::hits_from($context.url.path()),
         quote:       {
           use rand::seq::SliceRandom;
 
@@ -43,15 +43,15 @@ macro_rules! success {
 #[macro_export]
 macro_rules! mount_page {
   ($router:ident, $at:literal, $description:literal, $file:literal) => {
-    (*crate::ROUTES.lock().unwrap())
-      .insert($at.to_string(), crate::route::Route::new($description));
+    (*$crate::ROUTES.lock().unwrap())
+      .insert($at.to_string(), $crate::route::Route::new($description));
 
     ($router).mount(
       $at,
       Box::new(|context| {
         let content = include_str!(concat!("../content/pages/", $file, ".gmi"));
 
-        crate::route::cache(&context, &content);
+        $crate::route::cache(&context, &content);
         success!(content, context)
       }),
     );
@@ -61,8 +61,8 @@ macro_rules! mount_page {
 #[macro_export]
 macro_rules! mount_file {
   ($router:ident, $at:literal, $description:literal, $file:literal) => {
-    (*crate::ROUTES.lock().unwrap())
-      .insert($at.to_string(), crate::route::Route::new($description));
+    (*$crate::ROUTES.lock().unwrap())
+      .insert($at.to_string(), $crate::route::Route::new($description));
 
     ($router).mount(
       $at,

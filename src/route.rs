@@ -65,7 +65,7 @@ pub fn cache(context: &windmark::returnable::RouteContext<'_>, response: &str) {
     >= std::time::Duration::from_secs(crate::CACHE_RATE)
     || (*ROUTES.lock().unwrap())
       .get(context.url.path())
-      .is_some_with(|&r| r.text_cache.is_empty())
+      .is_some_and(|&r| r.text_cache.is_empty())
   {
     (*LAST_CACHED.lock().unwrap()) = Instant::now();
 
