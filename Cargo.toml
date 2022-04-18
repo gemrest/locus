@@ -44,6 +44,12 @@ rand = "0.8.5"
 serde = "1.0.136"
 serde_json = "1.0.79"
 
+# Search
+tantivy = "0.17.0"
+
+# Temporary Files
+tempfile = "3.3.0"
+
 [build-dependencies]
 # Templates
 yarte = "0.15.6"

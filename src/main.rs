@@ -32,6 +32,7 @@
 mod macros;
 mod modules;
 mod route;
+mod search;
 
 #[macro_use]
 extern crate log;
@@ -40,6 +41,7 @@ use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
 
 use pickledb::PickleDb;
 use route::track_mount;
+use search::{INDEX, SCHEMA};
 use tokio::time::Instant;
 use windmark::{Response, Router};
 use yarte::Template;
@@ -286,6 +288,44 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     "static mounts took {}ms",
     time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
   );
+
+  std::thread::spawn(search::index);
+
+  std::thread::spawn(|| {
+    loop {
+      std::thread::sleep(std::time::Duration::from_secs(1));
+
+      let path = (*SCHEMA.lock().unwrap()).get_field("path").unwrap();
+      let description =
+        (*SCHEMA.lock().unwrap()).get_field("description").unwrap();
+      let content = (*SCHEMA.lock().unwrap()).get_field("content").unwrap();
+
+      let reader = (*INDEX.lock().unwrap())
+        .reader_builder()
+        .reload_policy(tantivy::ReloadPolicy::OnCommit)
+        .try_into()
+        .unwrap();
+      let searcher = reader.searcher();
+      let query_parser = tantivy::query::QueryParser::for_index(
+        &(*INDEX.lock().unwrap()),
+        vec![path, description, content],
+      );
+      let query = query_parser.parse_query("Node.js").unwrap();
+      let top_docs = searcher
+        .search(&query, &tantivy::collector::TopDocs::with_limit(10))
+        .unwrap();
+
+      for (score, doc_address) in top_docs {
+        let retrieved_doc = searcher.doc(doc_address).unwrap();
+
+        println!(
+          "{}: {}",
+          score,
+          (*SCHEMA.lock().unwrap()).to_json(&retrieved_doc)
+        );
+      }
+    }
+  });
 
   router.run().await
 }
