@@ -83,7 +83,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   let mut time_mount = Instant::now();
   let mut router = Router::new();
-  let uptime = Instant::now();
 
   router.set_private_key_file(".locus/locus_private.pem");
   router.set_certificate_file(".locus/locus_public.pem");
@@ -133,41 +132,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   );
   time_mount = Instant::now();
 
-  track_mount(
-    &mut router,
-    "/uptime",
-    "The uptime of Locus (A.K.A., The Locus Epoch). (\\?[s|ms|mu|ns]?)?",
-    Box::new(move |context| {
-      Response::Success(context.url.query().map_or_else(
-        || uptime.elapsed().as_nanos().to_string(),
-        |query| {
-          match query {
-            "secs" | "seconds" | "s" => uptime.elapsed().as_secs().to_string(),
-            "milli" | "milliseconds" | "ms" =>
-              uptime.elapsed().as_millis().to_string(),
-            "micro" | "microseconds" | "mu" =>
-              uptime.elapsed().as_micros().to_string(),
-            _ => uptime.elapsed().as_nanos().to_string(),
-          }
-        },
-      ))
-    }),
-  );
-
+  router.attach_stateless(modules::uptime::module);
   router.attach_stateless(modules::sitemap::module);
   router.attach_stateless(modules::search::module);
   router.attach_stateless(modules::remarks::module);
-
-  info!(
-    "preliminary mounts took {}ms",
-    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
-  );
-  time_mount = Instant::now();
-
   router.attach_stateless(modules::multi_blog::module);
 
   info!(
-    "blog mounts took {}ms",
+    "module mounts took {}ms",
     time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
   );
   time_mount = Instant::now();

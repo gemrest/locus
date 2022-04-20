@@ -20,3 +20,4 @@ pub mod multi_blog;
 pub mod remarks;
 pub mod search;
 pub mod sitemap;
+pub mod uptime;
