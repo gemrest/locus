@@ -17,4 +17,5 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 pub mod multi_blog;
+pub mod search;
 pub mod sitemap;

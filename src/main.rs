@@ -41,7 +41,6 @@ use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
 
 use pickledb::PickleDb;
 use route::track_mount;
-use search::{INDEX, SCHEMA};
 use tokio::time::Instant;
 use windmark::{Response, Router};
 use yarte::Template;
@@ -156,107 +155,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   );
 
   router.attach_stateless(modules::sitemap::module);
-
-  track_mount(
-    &mut router,
-    "/search",
-    "A search engine for this Gemini capsule",
-    Box::new(|context| {
-      let mut response =
-        String::from("# SEARCH\n\n=> /search?action=go Search!");
-
-      if let Some(query) = context.url.query_pairs().next() {
-        if query.0 == "action" && query.1 == "go" {
-          return Response::Input(
-            "What would you like to search for?".to_string(),
-          );
-        }
-
-        {
-          let path = (*SCHEMA.lock().unwrap()).get_field("path").unwrap();
-          let description =
-            (*SCHEMA.lock().unwrap()).get_field("description").unwrap();
-          let content = (*SCHEMA.lock().unwrap()).get_field("content").unwrap();
-          let mut results = String::new();
-
-          let searcher = (*INDEX.lock().unwrap())
-            .reader_builder()
-            .reload_policy(tantivy::ReloadPolicy::OnCommit)
-            .try_into()
-            .unwrap()
-            .searcher();
-          let top_docs = searcher
-            .search(
-              &tantivy::query::QueryParser::for_index(
-                &(*INDEX.lock().unwrap()),
-                vec![path, description, content],
-              )
-              .parse_query(&query.0.to_string())
-              .unwrap(),
-              &tantivy::collector::TopDocs::with_limit(SEARCH_SIZE),
-            )
-            .unwrap();
-
-          for (_score, document_address) in top_docs {
-            let retrieved_document = searcher.doc(document_address).unwrap();
-
-            macro_rules! text {
-              ($field:ident) => {{
-                retrieved_document
-                  .get_first($field)
-                  .unwrap()
-                  .as_text()
-                  .unwrap()
-              }};
-              ($document:ident, $field:ident) => {{
-                $document.get_first($field).unwrap().as_text().unwrap()
-              }};
-            }
-
-            results +=
-              &format!("=> {} {}{}\n", text!(path), text!(description), {
-                let mut lines = retrieved_document
-                  .get_first(content)
-                  .unwrap()
-                  .as_text()
-                  .unwrap()
-                  .lines()
-                  .skip(2);
-
-                lines.next().map_or_else(
-                  || "".to_string(),
-                  |first_line| {
-                    format!(
-                      "\n> ... {}\n> {}\n> {} ...",
-                      first_line,
-                      lines.next().unwrap_or(""),
-                      lines.next().unwrap_or("")
-                    )
-                  },
-                )
-              });
-          }
-
-          response += &format!(
-            "\n\nYou searched for \"{}\"!\n\n## RESULTS\n\n{}\n\nIn need of \
-             more results? This search engine populates its index with route \
-             paths and route descriptions on startup. However, route content \
-             isn't populated until the route is first visited. After a \
-             route's first visit, it is updated after every five minutes, at \
-             time of visit.",
-            query.0,
-            if results.is_empty() {
-              "There are no results for your query...".to_string()
-            } else {
-              results.trim_end().to_string()
-            },
-          );
-        }
-      }
-
-      success!(response, context)
-    }),
-  );
+  router.attach_stateless(modules::search::module);
 
   track_mount(
     &mut router,
