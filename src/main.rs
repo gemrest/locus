@@ -166,7 +166,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       "This Gemini capsule's icon",
       "favicon.txt"
     );
-    batch_mount_file!(
+    batch_mount_page!(
       router,
       ("/", "This Gemini capsule's homepage", "index"),
       ("/contact", "Many ways to contact Fuwn", "contact"),

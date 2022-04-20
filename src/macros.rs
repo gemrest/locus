@@ -84,7 +84,7 @@ macro_rules! mount_file {
 }
 
 #[macro_export]
-macro_rules! batch_mount_file {
+macro_rules! batch_mount_page {
   ($router:ident,$(($path:literal, $description:literal, $file:literal),)*) => {
     $(
       mount_page!($router, $path, $description, $file);
