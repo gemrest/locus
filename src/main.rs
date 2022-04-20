@@ -156,29 +156,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   router.attach_stateless(modules::sitemap::module);
   router.attach_stateless(modules::search::module);
-
-  track_mount(
-    &mut router,
-    "/remarks",
-    "Fuwn's remarks",
-    Box::new(|context| {
-      let remarks: Vec<String> =
-        serde_json::from_str(include_str!("../content/json/remarks.json"))
-          .unwrap();
-
-      success!(
-        format!(
-          "# REMARKS\n\n{}",
-          remarks
-            .iter()
-            .map(|r| format!("* {}", r))
-            .collect::<Vec<String>>()
-            .join("\n")
-        ),
-        context
-      )
-    }),
-  );
+  router.attach_stateless(modules::remarks::module);
 
   info!(
     "preliminary mounts took {}ms",

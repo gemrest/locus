@@ -16,7 +16,29 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-pub mod multi_blog;
-pub mod remarks;
-pub mod search;
-pub mod sitemap;
+use std::lazy::SyncLazy;
+
+pub static REMARKS: SyncLazy<Vec<String>> = SyncLazy::new(|| {
+  serde_json::from_str(include_str!("../../content/json/remarks.json")).unwrap()
+});
+
+pub fn module(router: &mut windmark::Router) {
+  crate::route::track_mount(
+    router,
+    "/remarks",
+    "Fuwn's remarks",
+    Box::new(|context| {
+      crate::success!(
+        format!(
+          "# REMARKS\n\n{}",
+          REMARKS
+            .iter()
+            .map(|r| format!("* {}", r))
+            .collect::<Vec<String>>()
+            .join("\n")
+        ),
+        context
+      )
+    }),
+  );
+}
