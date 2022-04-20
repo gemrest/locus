@@ -27,8 +27,8 @@ macro_rules! success {
   ($body:expr, $context:ident) => {{
     $crate::route::cache(&$context, &$body);
 
-    Response::Success(
-      Main {
+    windmark::Response::Success(
+      $crate::Main {
         body:        &$body,
         hits:        &$crate::route::hits_from($context.url.path()),
         quote:       {

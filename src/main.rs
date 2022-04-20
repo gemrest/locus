@@ -154,24 +154,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       ))
     }),
   );
-  track_mount(
-    &mut router,
-    "/sitemap",
-    "A map of all publicly available routes on this Gemini capsule",
-    Box::new(|context| {
-      success!(
-        format!(
-          "# SITEMAP\n\n{}",
-          (*ROUTES.lock().unwrap())
-            .iter()
-            .map(|(r, d)| format!("=> {} {}", r, d.description))
-            .collect::<Vec<_>>()
-            .join("\n")
-        ),
-        context
-      )
-    }),
-  );
+
+  router.attach_stateless(modules::sitemap::module);
 
   track_mount(
     &mut router,
@@ -303,7 +287,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   );
   time_mount = Instant::now();
 
-  router.attach_stateless(modules::multi_blog::multi_blog);
+  router.attach_stateless(modules::multi_blog::module);
 
   info!(
     "blog mounts took {}ms",

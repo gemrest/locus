@@ -22,12 +22,10 @@ use std::{
   io::Read,
 };
 
-use windmark::Response;
-
-use crate::{success, track_mount, Main};
+use crate::{success, track_mount};
 
 #[allow(clippy::too_many_lines)]
-pub fn multi_blog(router: &mut windmark::Router) {
+pub fn module(router: &mut windmark::Router) {
   let paths = read_dir("content/pages/blog").unwrap();
   let mut blogs: HashMap<String, HashMap<_, _>> = HashMap::new();
 

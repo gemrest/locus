@@ -16,5 +16,23 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-pub mod multi_blog;
-pub mod sitemap;
+pub fn module(router: &mut windmark::Router) {
+  crate::track_mount(
+    router,
+    "/sitemap",
+    "A map of all publicly available routes on this Gemini capsule",
+    Box::new(|context| {
+      crate::success!(
+        format!(
+          "# SITEMAP\n\n{}",
+          (*crate::ROUTES.lock().unwrap())
+            .iter()
+            .map(|(r, d)| format!("=> {} {}", r, d.description))
+            .collect::<Vec<_>>()
+            .join("\n")
+        ),
+        context
+      )
+    }),
+  );
+}
