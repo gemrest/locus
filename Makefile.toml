@@ -56,4 +56,4 @@ args = ["run", "--", "{@}"]
 [tasks.docker-build]
 dependencies = ["checkfc"]
 command = "docker"
-args = ["build", "-t", "fuwn/locus", "."]
+args = ["build", "-t", "fuwn/locus:latest", "."]

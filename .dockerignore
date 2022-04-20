@@ -1,11 +1,9 @@
 # Rust
 target/
-Cargo.lock
 
 # IDE
 .idea/
 
 # Development
 *.pem
-*.db
 .locus/
