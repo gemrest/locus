@@ -303,7 +303,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   );
   time_mount = Instant::now();
 
-  router.attach_stateless(modules::multi_blog);
+  router.attach_stateless(modules::multi_blog::multi_blog);
 
   info!(
     "blog mounts took {}ms",

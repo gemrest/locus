@@ -16,6 +16,12 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
+use std::lazy::SyncLazy;
+
+pub static QUOTES: SyncLazy<Vec<String>> = SyncLazy::new(|| {
+  serde_json::from_str(include_str!("../content/json/quotes.json")).unwrap()
+});
+
 #[macro_export]
 macro_rules! success {
   ($body:expr, $context:ident) => {{
@@ -28,11 +34,10 @@ macro_rules! success {
         quote:       {
           use rand::seq::SliceRandom;
 
-          let quotes: Vec<String> =
-            serde_json::from_str(include_str!("../content/json/quotes.json"))
-              .unwrap();
-
-          &quotes.choose(&mut rand::thread_rng()).unwrap().to_string()
+          &$crate::macros::QUOTES
+            .choose(&mut rand::thread_rng())
+            .unwrap()
+            .to_string()
         },
         commit:      &format!("/tree/{}", env!("VERGEN_GIT_SHA")),
         mini_commit: env!("VERGEN_GIT_SHA").get(0..5).unwrap_or("UNKNOWN"),
