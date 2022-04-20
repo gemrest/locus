@@ -12,7 +12,6 @@ repository = "https://github.com/gemrest/locus"
 license = "GPL-3.0-only"
 keywords = ["gemini"]
 categories = ["web-programming"]
-publish = false
 
 # Slower builds, faster executables
 [profile.release]
