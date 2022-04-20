@@ -154,19 +154,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   });
 
   time_mounts("static", &mut time_mount, || {
-    mount_file!(
+    batch_mount!(
+      "files",
       router,
-      "/robots.txt",
-      "Crawler traffic manager, for robots, not humans",
-      "robots.txt"
+      (
+        "/robots.txt",
+        "Crawler traffic manager, for robots, not humans",
+        "robots.txt"
+      ),
+      ("/favicon.txt", "This Gemini capsule's icon", "favicon.txt"),
     );
-    mount_file!(
-      router,
-      "/favicon.txt",
-      "This Gemini capsule's icon",
-      "favicon.txt"
-    );
-    batch_mount_page!(
+
+    batch_mount!(
+      "pages",
       router,
       ("/", "This Gemini capsule's homepage", "index"),
       ("/contact", "Many ways to contact Fuwn", "contact"),
