@@ -166,28 +166,28 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       "This Gemini capsule's icon",
       "favicon.txt"
     );
-    mount_page!(router, "/", "This Gemini capsule's homepage", "index");
-    mount_page!(router, "/contact", "Many ways to contact Fuwn", "contact");
-    mount_page!(router, "/donate", "Many ways to donate to Fuwn", "donate");
-    mount_page!(
+    batch_mount_file!(
       router,
-      "/gemini",
-      "Information and resources for the Gemini protocol",
-      "gemini"
-    );
-    mount_page!(
-      router,
-      "/gopher",
-      "Information and resources for the Gopher protocol",
-      "gopher"
-    );
-    mount_page!(router, "/interests", "A few interests of Fuwn", "interests");
-    mount_page!(router, "/skills", "A few skills of Fuwn", "skills");
-    mount_page!(
-      router,
-      "/licensing",
-      "The licensing terms of this Gemini capsule",
-      "licensing"
+      ("/", "This Gemini capsule's homepage", "index"),
+      ("/contact", "Many ways to contact Fuwn", "contact"),
+      ("/donate", "Many ways to donate to Fuwn", "donate"),
+      (
+        "/gemini",
+        "Information and resources for the Gemini protocol",
+        "gemini"
+      ),
+      (
+        "/gopher",
+        "Information and resources for the Gopher protocol",
+        "gopher"
+      ),
+      ("/interests", "A few interests of Fuwn", "interests"),
+      ("/skills", "A few skills of Fuwn", "skills"),
+      (
+        "/licensing",
+        "The licensing terms of this Gemini capsule",
+        "licensing"
+      ),
     );
   });
 
