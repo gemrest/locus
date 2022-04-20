@@ -24,8 +24,10 @@ pub fn module(router: &mut windmark::Router) {
     "/search",
     "A search engine for this Gemini capsule",
     Box::new(|context| {
-      let mut response =
-        String::from("# SEARCH\n\n=> /search?action=go Search!");
+      let mut response = String::from(
+        "# SEARCH\n\n=> /search?action=go Search!\n=> /random I'm Feeling \
+         Lucky",
+      );
 
       if let Some(query) = context.url.query_pairs().next() {
         if query.0 == "action" && query.1 == "go" {

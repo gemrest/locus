@@ -16,9 +16,23 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-pub mod multi_blog;
-pub mod random;
-pub mod remarks;
-pub mod search;
-pub mod sitemap;
-pub mod uptime;
+use rand::seq::SliceRandom;
+
+pub fn module(router: &mut windmark::Router) {
+  crate::route::track_mount(
+    router,
+    "/random",
+    "Get redirected to a random route",
+    Box::new(|_| {
+      windmark::Response::TemporaryRedirect(
+        (*crate::ROUTES.lock().unwrap())
+          .iter()
+          .collect::<Vec<_>>()
+          .choose(&mut rand::thread_rng())
+          .unwrap()
+          .0
+          .to_string(),
+      )
+    }),
+  );
+}

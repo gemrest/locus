@@ -151,6 +151,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     router.attach_stateless(modules::search::module);
     router.attach_stateless(modules::remarks::module);
     router.attach_stateless(modules::multi_blog::module);
+    router.attach_stateless(modules::random::module);
   });
 
   time_mounts("static", &mut time_mount, || {
