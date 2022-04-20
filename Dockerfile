@@ -37,6 +37,9 @@ COPY --from=builder --chown=nonroot:nonroot /usr/src/locus/locus .
 
 COPY --from=builder --chown=nonroot:nonroot /usr/src/locus/content ./content
 
+# CBA
+USER root
+
 EXPOSE 1965
 
 ENTRYPOINT ["/locus/locus"]
