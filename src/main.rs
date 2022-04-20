@@ -76,6 +76,19 @@ struct Main<'a> {
   mini_commit: &'a str,
 }
 
+fn time_mounts<T>(context: &str, timer: &mut Instant, mut mounter: T)
+where T: FnMut() {
+  mounter();
+
+  info!(
+    "{} mounts took {}ms",
+    context,
+    timer.elapsed().as_nanos() as f64 / 1_000_000.0
+  );
+
+  *timer = Instant::now();
+}
+
 #[windmark::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
   std::env::set_var("RUST_LOG", "windmark,locus=trace");
@@ -132,58 +145,51 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   );
   time_mount = Instant::now();
 
-  router.attach_stateless(modules::uptime::module);
-  router.attach_stateless(modules::sitemap::module);
-  router.attach_stateless(modules::search::module);
-  router.attach_stateless(modules::remarks::module);
-  router.attach_stateless(modules::multi_blog::module);
+  time_mounts("module", &mut time_mount, || {
+    router.attach_stateless(modules::uptime::module);
+    router.attach_stateless(modules::sitemap::module);
+    router.attach_stateless(modules::search::module);
+    router.attach_stateless(modules::remarks::module);
+    router.attach_stateless(modules::multi_blog::module);
+  });
 
-  info!(
-    "module mounts took {}ms",
-    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
-  );
-  time_mount = Instant::now();
-
-  mount_file!(
-    router,
-    "/robots.txt",
-    "Crawler traffic manager, for robots, not humans",
-    "robots.txt"
-  );
-  mount_file!(
-    router,
-    "/favicon.txt",
-    "This Gemini capsule's icon",
-    "favicon.txt"
-  );
-  mount_page!(router, "/", "This Gemini capsule's homepage", "index");
-  mount_page!(router, "/contact", "Many ways to contact Fuwn", "contact");
-  mount_page!(router, "/donate", "Many ways to donate to Fuwn", "donate");
-  mount_page!(
-    router,
-    "/gemini",
-    "Information and resources for the Gemini protocol",
-    "gemini"
-  );
-  mount_page!(
-    router,
-    "/gopher",
-    "Information and resources for the Gopher protocol",
-    "gopher"
-  );
-  mount_page!(router, "/interests", "A few interests of Fuwn", "interests");
-  mount_page!(router, "/skills", "A few skills of Fuwn", "skills");
-  mount_page!(
-    router,
-    "/licensing",
-    "The licensing terms of this Gemini capsule",
-    "licensing"
-  );
-
-  info!(
-    "static mounts took {}ms",
-    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
-  );
+  time_mounts("static", &mut time_mount, || {
+    mount_file!(
+      router,
+      "/robots.txt",
+      "Crawler traffic manager, for robots, not humans",
+      "robots.txt"
+    );
+    mount_file!(
+      router,
+      "/favicon.txt",
+      "This Gemini capsule's icon",
+      "favicon.txt"
+    );
+    mount_page!(router, "/", "This Gemini capsule's homepage", "index");
+    mount_page!(router, "/contact", "Many ways to contact Fuwn", "contact");
+    mount_page!(router, "/donate", "Many ways to donate to Fuwn", "donate");
+    mount_page!(
+      router,
+      "/gemini",
+      "Information and resources for the Gemini protocol",
+      "gemini"
+    );
+    mount_page!(
+      router,
+      "/gopher",
+      "Information and resources for the Gopher protocol",
+      "gopher"
+    );
+    mount_page!(router, "/interests", "A few interests of Fuwn", "interests");
+    mount_page!(router, "/skills", "A few skills of Fuwn", "skills");
+    mount_page!(
+      router,
+      "/licensing",
+      "The licensing terms of this Gemini capsule",
+      "licensing"
+    );
+  });
 
   std::thread::spawn(search::index);
 
