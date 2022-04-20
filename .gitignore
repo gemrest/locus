@@ -6,5 +6,4 @@ Cargo.lock
 .idea/
 
 # Development
-*.pem
 .locus/
