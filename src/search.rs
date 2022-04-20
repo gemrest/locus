@@ -53,6 +53,8 @@ pub static INDEX_WRITER: SyncLazy<Mutex<tantivy::IndexWriter>> =
   });
 
 pub fn index() {
+  info!("spawned search indexer");
+
   loop {
     let path = (*SCHEMA.lock().unwrap()).get_field("path").unwrap();
     let description =
