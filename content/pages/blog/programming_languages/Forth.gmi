@@ -1,0 +1,16 @@
+# FORTH
+
+Author: Fuwn
+Created: 2022. 04. 21.
+Last Modified: 2022. 04. 21.
+
+## RESOURCES
+
+=> http://www.forth.org/ Forth Interest Group Home Page
+=> https://forth-standard.org/ Forth
+=> http://theforth.net/ the Forth Net
+=> http://www.complang.tuwien.ac.at/forth/program-links.html Links to Forth Programs
+=> https://github.com/uho/docker-forth Docker images for popular Forth systems
+=> http://forthworks.com/ ForthWorks (HTTP)
+=> gemini://forthworks.com/ ForthWorks (Gemini)
+=> gopher://forthworks.com:70/ ForthWorks (Gopher)
