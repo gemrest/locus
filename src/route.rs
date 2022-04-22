@@ -22,6 +22,9 @@ use tokio::time::Instant;
 
 use crate::ROUTES;
 
+#[cfg(debug_assertions)]
+pub const CACHE_RATE: u64 = 1;
+#[cfg(not(debug_assertions))]
 pub const CACHE_RATE: u64 = 60 * 5;
 
 #[derive(Debug)]
