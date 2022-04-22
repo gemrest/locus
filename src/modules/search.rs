@@ -90,11 +90,15 @@ pub fn module(router: &mut windmark::Router) {
                 lines.next().map_or_else(
                   || "".to_string(),
                   |first_line| {
+                    let mut context_lines = lines.skip_while(|l| {
+                      !l.to_lowercase().contains(&query.0.to_string())
+                    });
+
                     format!(
                       "\n> ... {}\n> {}\n> {} ...",
                       first_line,
-                      lines.next().unwrap_or(""),
-                      lines.next().unwrap_or("")
+                      context_lines.next().unwrap_or(""),
+                      context_lines.next().unwrap_or("")
                     )
                   },
                 )
