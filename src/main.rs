@@ -93,6 +93,15 @@ where T: FnMut() {
   *timer = Instant::now();
 }
 
+fn time_section(timer: &mut Instant, context: &str) {
+  info!(
+    "{} took {}ms",
+    context,
+    timer.elapsed().as_nanos() as f64 / 1_000_000.0
+  );
+  *timer = Instant::now();
+}
+
 #[windmark::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
   std::env::set_var("RUST_LOG", "windmark,locus=trace");
@@ -108,11 +117,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   }));
   router.set_fix_path(true);
 
-  info!(
-    "creating router took {}ms",
-    time_mount.elapsed().as_nanos() as f64 / 1_000_000.0
-  );
-  time_mount = Instant::now();
+  time_section(&mut time_mount, "creating router");
 
   time_mounts("module", &mut time_mount, || {
     router.attach_stateless(modules::uptime::module);
