@@ -9,6 +9,16 @@ RUN curl "https://static.rust-lang.org/rustup/archive/${RUSTUP_VER}/${RUST_ARCH}
    && ~/.cargo/bin/rustup target add x86_64-unknown-linux-musl \
    && echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > ~/.cargo/config
 
+RUN cargo install sccache
+
+# RUN apt-get update && apt-get install clang-3.9 -y
+
+RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
+    && apt-get update \
+    && apt-get install -y clang
+
+RUN cargo install --git https://github.com/dimensionhq/fleet fleet-rs
+
 FROM environment as builder
 
 WORKDIR /usr/src
@@ -19,13 +29,13 @@ WORKDIR /usr/src/locus
 
 COPY Cargo.* .
 
-RUN cargo build --release
+RUN fleet build --release
 
 COPY . .
 
 RUN --mount=type=cache,target=/usr/src/locus/target \
     --mount=type=cache,target=/root/.cargo/registry \
-    cargo build --release --bin locus \
+    fleet build --release --bin locus \
     && strip -s /usr/src/locus/target/x86_64-unknown-linux-musl/release/locus \
     && mv /usr/src/locus/target/x86_64-unknown-linux-musl/release/locus .
 
