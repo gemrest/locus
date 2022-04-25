@@ -46,6 +46,10 @@ use windmark::{Response, Router};
 use yarte::Template;
 
 const SEARCH_SIZE: usize = 10;
+const ERROR_HANDLER_RESPONSE: &str =
+  "The requested resource could not be found at this time. You can try \
+   refreshing the page, if that doesn't change anything; contact Fuwn! \
+   (contact@fuwn.me)";
 
 static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
   Mutex::new({
@@ -130,12 +134,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       .unwrap();
   }));
   router.set_error_handler(Box::new(|_| {
-    Response::NotFound(
-      "The requested resource could not be found at this time. You can try \
-       refreshing the page, if that doesn't change anything; contact Fuwn! \
-       (contact@fuwn.me)"
-        .into(),
-    )
+    Response::NotFound(ERROR_HANDLER_RESPONSE.into())
   }));
   router.set_fix_path(true);
 
