@@ -56,10 +56,11 @@ macro_rules! mount_page {
     ($router).mount(
       $at,
       Box::new(|context| {
-        let content = include_str!(concat!("../content/pages/", $file, ".gmi"));
+        let content =
+          include_str!(concat!("../../content/pages/", $file, ".gmi"));
 
         $crate::route::cache(&context, &content);
-        success!(content, context)
+        $crate::success!(content, context)
       }),
     );
   };
@@ -74,8 +75,8 @@ macro_rules! mount_file {
     ($router).mount(
       $at,
       Box::new(|_| {
-        Response::SuccessFile(include_bytes!(concat!(
-          "../content/meta/",
+        windmark::Response::SuccessFile(include_bytes!(concat!(
+          "../../content/meta/",
           $file
         )))
       }),
@@ -87,12 +88,12 @@ macro_rules! mount_file {
 macro_rules! batch_mount {
   ("pages", $router:ident, $(($path:literal, $description:literal, $file:literal),)*) => {
     $(
-      mount_page!($router, $path, $description, $file);
+      $crate::mount_page!($router, $path, $description, $file);
     )*
   };
   ("files", $router:ident, $(($path:literal, $description:literal, $file:literal),)*) => {
     $(
-      mount_file!($router, $path, $description, $file);
+      $crate::mount_file!($router, $path, $description, $file);
     )*
   };
 }

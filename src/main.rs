@@ -152,44 +152,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     router.attach_stateless(modules::remarks::module);
     router.attach_stateless(modules::multi_blog::module);
     router.attach_stateless(modules::random::module);
-  });
-
-  time_mounts("static", &mut time_mount, || {
-    batch_mount!(
-      "files",
-      router,
-      (
-        "/robots.txt",
-        "Crawler traffic manager, for robots, not humans",
-        "robots.txt"
-      ),
-      ("/favicon.txt", "This Gemini capsule's icon", "favicon.txt"),
-    );
-
-    batch_mount!(
-      "pages",
-      router,
-      ("/", "This Gemini capsule's homepage", "index"),
-      ("/contact", "Many ways to contact Fuwn", "contact"),
-      ("/donate", "Many ways to donate to Fuwn", "donate"),
-      (
-        "/gemini",
-        "Information and resources for the Gemini protocol",
-        "gemini"
-      ),
-      (
-        "/gopher",
-        "Information and resources for the Gopher protocol",
-        "gopher"
-      ),
-      ("/interests", "A few interests of Fuwn", "interests"),
-      ("/skills", "A few skills of Fuwn", "skills"),
-      (
-        "/licensing",
-        "The licensing terms of this Gemini capsule",
-        "licensing"
-      ),
-    );
+    router.attach_stateless(modules::r#static::module);
   });
 
   std::thread::spawn(search::index);

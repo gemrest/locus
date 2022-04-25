@@ -21,4 +21,5 @@ pub mod random;
 pub mod remarks;
 pub mod search;
 pub mod sitemap;
+pub mod r#static;
 pub mod uptime;
