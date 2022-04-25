@@ -41,7 +41,6 @@ use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
 
 use pickledb::PickleDb;
 use tokio::time::Instant;
-use yarte::Template;
 
 const SEARCH_SIZE: usize = 10;
 const ERROR_HANDLER_RESPONSE: &str =
@@ -68,7 +67,7 @@ static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
 static ROUTES: SyncLazy<Mutex<HashMap<String, route::Route>>> =
   SyncLazy::new(|| Mutex::new(HashMap::new()));
 
-#[derive(Template)]
+#[derive(yarte::Template)]
 #[template(path = "main")]
 struct Main<'a> {
   body:        &'a str,
