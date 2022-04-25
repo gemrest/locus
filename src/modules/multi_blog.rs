@@ -22,7 +22,7 @@ use std::{
   io::Read,
 };
 
-use crate::{success, track_mount};
+use crate::{route::track_mount, success};
 
 #[allow(clippy::too_many_lines)]
 pub fn module(router: &mut windmark::Router) {

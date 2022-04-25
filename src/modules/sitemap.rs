@@ -17,7 +17,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 pub fn module(router: &mut windmark::Router) {
-  crate::track_mount(
+  crate::route::track_mount(
     router,
     "/sitemap",
     "A map of all publicly available routes on this Gemini capsule",

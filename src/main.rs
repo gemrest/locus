@@ -40,9 +40,7 @@ extern crate log;
 use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
 
 use pickledb::PickleDb;
-use route::track_mount;
 use tokio::time::Instant;
-use windmark::{Response, Router};
 use yarte::Template;
 
 const SEARCH_SIZE: usize = 10;
@@ -108,12 +106,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   pretty_env_logger::init();
 
   let mut time_mount = Instant::now();
-  let mut router = Router::new();
+  let mut router = windmark::Router::new();
 
   router.set_private_key_file(".locus/locus_private.pem");
   router.set_certificate_file(".locus/locus_public.pem");
   router.set_error_handler(Box::new(|_| {
-    Response::NotFound(ERROR_HANDLER_RESPONSE.into())
+    windmark::Response::NotFound(ERROR_HANDLER_RESPONSE.into())
   }));
   router.set_fix_path(true);
 

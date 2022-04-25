@@ -19,7 +19,7 @@
 use crate::search::{INDEX, SCHEMA};
 
 pub fn module(router: &mut windmark::Router) {
-  crate::track_mount(
+  crate::route::track_mount(
     router,
     "/search",
     "A search engine for this Gemini capsule",
