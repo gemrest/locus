@@ -7,3 +7,7 @@ Cargo.lock
 
 # Development
 .locus/
+
+# Fleet
+.cargo/
+fleet.toml

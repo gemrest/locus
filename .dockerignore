@@ -6,3 +6,7 @@ target/
 
 # Development
 .locus/
+
+# Fleet
+.cargo/
+fleet.toml
