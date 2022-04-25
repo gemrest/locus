@@ -103,36 +103,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   router.set_private_key_file(".locus/locus_private.pem");
   router.set_certificate_file(".locus/locus_public.pem");
-  router.set_pre_route_callback(Box::new(|stream, url, _| {
-    info!(
-      "accepted connection from {} to {}",
-      stream.peer_addr().unwrap().ip(),
-      url.to_string(),
-    );
-
-    let url_path = if url.path().is_empty() {
-      "/"
-    } else {
-      url.path()
-    };
-
-    let previous_database = (*DATABASE.lock().unwrap()).get::<i32>(url_path);
-
-    match previous_database {
-      None => {
-        (*DATABASE.lock().unwrap())
-          .set::<i32>(url_path, &0)
-          .unwrap();
-      }
-      Some(_) => {}
-    }
-
-    let new_database = (*DATABASE.lock().unwrap()).get::<i32>(url_path);
-
-    (*DATABASE.lock().unwrap())
-      .set(url_path, &(new_database.unwrap() + 1))
-      .unwrap();
-  }));
   router.set_error_handler(Box::new(|_| {
     Response::NotFound(ERROR_HANDLER_RESPONSE.into())
   }));
@@ -152,6 +122,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     router.attach_stateless(modules::multi_blog::module);
     router.attach_stateless(modules::random::module);
     router.attach_stateless(modules::r#static::module);
+    router.attach_stateless(modules::router::module);
   });
 
   std::thread::spawn(search::index);

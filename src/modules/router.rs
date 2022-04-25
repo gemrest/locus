@@ -16,11 +16,37 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-pub mod multi_blog;
-pub mod random;
-pub mod remarks;
-pub mod router;
-pub mod search;
-pub mod sitemap;
-pub mod r#static;
-pub mod uptime;
+use crate::DATABASE;
+
+pub fn module(router: &mut windmark::Router) {
+  router.set_pre_route_callback(Box::new(|stream, url, _| {
+    info!(
+      "accepted connection from {} to {}",
+      stream.peer_addr().unwrap().ip(),
+      url.to_string(),
+    );
+
+    let url_path = if url.path().is_empty() {
+      "/"
+    } else {
+      url.path()
+    };
+
+    let previous_database = (*DATABASE.lock().unwrap()).get::<i32>(url_path);
+
+    match previous_database {
+      None => {
+        (*DATABASE.lock().unwrap())
+          .set::<i32>(url_path, &0)
+          .unwrap();
+      }
+      Some(_) => {}
+    }
+
+    let new_database = (*DATABASE.lock().unwrap()).get::<i32>(url_path);
+
+    (*DATABASE.lock().unwrap())
+      .set(url_path, &(new_database.unwrap() + 1))
+      .unwrap();
+  }));
+}
