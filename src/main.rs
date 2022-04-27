@@ -32,7 +32,6 @@
 mod macros;
 mod modules;
 mod route;
-mod search;
 
 #[macro_use]
 extern crate log;
@@ -118,7 +117,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   time_mounts("module", &mut time_mount, || stateless!(router, modules));
 
-  std::thread::spawn(search::index);
+  std::thread::spawn(modules::search::index);
 
   router.run().await
 }

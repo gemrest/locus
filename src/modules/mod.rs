@@ -22,7 +22,7 @@ mod multi_blog;
 mod random;
 mod remarks;
 mod router;
-mod search;
+pub mod search;
 mod sitemap;
 mod r#static;
 mod uptime;
