@@ -57,7 +57,7 @@ pub fn track_mount(
   description: &str,
   handler: windmark::handler::RouteResponse,
 ) {
-  (*crate::ROUTES.lock().unwrap())
+  (*ROUTES.lock().unwrap())
     .insert(route.to_string(), Route::new(description));
   router.mount(route, handler);
 }

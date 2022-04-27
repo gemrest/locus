@@ -25,7 +25,7 @@ const SEARCH_INDEX_SIZE: usize = 10_000_000;
 
 pub static INDEX_PATH: SyncLazy<Mutex<TempDir>> =
   SyncLazy::new(|| Mutex::new(TempDir::new().unwrap()));
-pub static SCHEMA: SyncLazy<Mutex<tantivy::schema::Schema>> =
+pub static SCHEMA: SyncLazy<Mutex<schema::Schema>> =
   SyncLazy::new(|| {
     Mutex::new({
       let mut schema_builder = schema::Schema::builder();
