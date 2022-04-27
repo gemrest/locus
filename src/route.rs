@@ -16,16 +16,17 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-use std::{lazy::SyncLazy, sync::Mutex};
+use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
 
 use tokio::time::Instant;
-
-use crate::ROUTES;
 
 #[cfg(debug_assertions)]
 pub const CACHE_RATE: u64 = 1;
 #[cfg(not(debug_assertions))]
 pub const CACHE_RATE: u64 = 60 * 5;
+
+pub static ROUTES: SyncLazy<Mutex<HashMap<String, Route>>> =
+  SyncLazy::new(|| Mutex::new(HashMap::new()));
 
 #[derive(Debug)]
 pub struct Route {

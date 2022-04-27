@@ -22,13 +22,23 @@ pub static QUOTES: SyncLazy<Vec<String>> = SyncLazy::new(|| {
   serde_json::from_str(include_str!("../content/json/quotes.json")).unwrap()
 });
 
+#[derive(yarte::Template)]
+#[template(path = "main")]
+pub struct Main<'a> {
+  pub body:        &'a str,
+  pub hits:        &'a i32,
+  pub quote:       &'a str,
+  pub commit:      &'a str,
+  pub mini_commit: &'a str,
+}
+
 #[macro_export]
 macro_rules! success {
   ($body:expr, $context:ident) => {{
     $crate::route::cache(&$context, &$body);
 
     windmark::Response::Success(
-      $crate::Main {
+      $crate::macros::Main {
         body:        &$body,
         hits:        &$crate::route::hits_from($context.url.path()),
         quote:       {
@@ -50,7 +60,7 @@ macro_rules! success {
 #[macro_export]
 macro_rules! mount_page {
   ($router:ident, $at:literal, $description:literal, $file:literal) => {
-    (*$crate::ROUTES.lock().unwrap())
+    (*$crate::route::ROUTES.lock().unwrap())
       .insert($at.to_string(), $crate::route::Route::new($description));
 
     ($router).mount(
@@ -69,7 +79,7 @@ macro_rules! mount_page {
 #[macro_export]
 macro_rules! mount_file {
   ($router:ident, $at:literal, $description:literal, $file:literal) => {
-    (*$crate::ROUTES.lock().unwrap())
+    (*$crate::route::ROUTES.lock().unwrap())
       .insert($at.to_string(), $crate::route::Route::new($description));
 
     ($router).mount(

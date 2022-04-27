@@ -36,12 +36,11 @@ mod route;
 #[macro_use]
 extern crate log;
 
-use std::{collections::HashMap, lazy::SyncLazy, sync::Mutex};
+use std::{lazy::SyncLazy, sync::Mutex};
 
 use pickledb::PickleDb;
 use tokio::time::Instant;
 
-const SEARCH_SIZE: usize = 10;
 const ERROR_HANDLER_RESPONSE: &str =
   "The requested resource could not be found at this time. You can try \
    refreshing the page, if that doesn't change anything; contact Fuwn! \
@@ -63,18 +62,6 @@ static DATABASE: SyncLazy<Mutex<PickleDb>> = SyncLazy::new(|| {
     }
   })
 });
-static ROUTES: SyncLazy<Mutex<HashMap<String, route::Route>>> =
-  SyncLazy::new(|| Mutex::new(HashMap::new()));
-
-#[derive(yarte::Template)]
-#[template(path = "main")]
-struct Main<'a> {
-  body:        &'a str,
-  hits:        &'a i32,
-  quote:       &'a str,
-  commit:      &'a str,
-  mini_commit: &'a str,
-}
 
 fn time_mounts<T>(context: &str, timer: &mut Instant, mut mounter: T)
 where T: FnMut() {

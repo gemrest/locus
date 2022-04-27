@@ -22,6 +22,7 @@ use tantivy::schema;
 use tempfile::TempDir;
 
 const SEARCH_INDEX_SIZE: usize = 10_000_000;
+const SEARCH_SIZE: usize = 10;
 
 static INDEX_PATH: SyncLazy<Mutex<TempDir>> =
   SyncLazy::new(|| Mutex::new(TempDir::new().unwrap()));
@@ -89,7 +90,7 @@ pub(super) fn module(router: &mut windmark::Router) {
               )
               .parse_query(&query.0.to_string())
               .unwrap(),
-              &tantivy::collector::TopDocs::with_limit(crate::SEARCH_SIZE),
+              &tantivy::collector::TopDocs::with_limit(SEARCH_SIZE),
             )
             .unwrap();
 
@@ -170,7 +171,7 @@ pub fn index() {
     let time = tokio::time::Instant::now();
     let mut new = 0;
 
-    for (route_path, information) in &(*crate::ROUTES.lock().unwrap()) {
+    for (route_path, information) in &(*crate::route::ROUTES.lock().unwrap()) {
       // Pretty inefficient, but I'll figure this out later.
       (*INDEX_WRITER.lock().unwrap())
         .delete_all_documents()

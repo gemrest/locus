@@ -25,7 +25,7 @@ pub fn module(router: &mut windmark::Router) {
     "Get redirected to a random route",
     Box::new(|_| {
       windmark::Response::TemporaryRedirect(
-        (*crate::ROUTES.lock().unwrap())
+        (*crate::route::ROUTES.lock().unwrap())
           .iter()
           .collect::<Vec<_>>()
           .choose(&mut rand::thread_rng())

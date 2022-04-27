@@ -25,7 +25,7 @@ pub fn module(router: &mut windmark::Router) {
       crate::success!(
         format!(
           "# SITEMAP\n\n{}",
-          (*crate::ROUTES.lock().unwrap())
+          (*crate::route::ROUTES.lock().unwrap())
             .iter()
             .map(|(r, d)| format!("=> {} {}", r, d.description))
             .collect::<Vec<_>>()
