@@ -116,9 +116,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   time_section(&mut time_mount, "creating router");
 
-  time_mounts("module", &mut time_mount, || {
-    stateless!(router, modules);
-  });
+  time_mounts("module", &mut time_mount, || stateless!(router, modules));
 
   std::thread::spawn(search::index);
 
