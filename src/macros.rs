@@ -97,3 +97,17 @@ macro_rules! batch_mount {
     )*
   };
 }
+
+#[macro_export]
+macro_rules! stateless {
+  ($router:ident, $module:tt) => {
+    $router.attach_stateless($module::module)
+  };
+}
+
+#[macro_export]
+macro_rules! statelesses {
+  ($router:ident, $($module:tt),*) => {
+    $($crate::stateless!($router, $module);)*
+  };
+}

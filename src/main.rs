@@ -117,14 +117,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   time_section(&mut time_mount, "creating router");
 
   time_mounts("module", &mut time_mount, || {
-    router.attach_stateless(modules::uptime::module);
-    router.attach_stateless(modules::sitemap::module);
-    router.attach_stateless(modules::search::module);
-    router.attach_stateless(modules::remarks::module);
-    router.attach_stateless(modules::multi_blog::module);
-    router.attach_stateless(modules::random::module);
-    router.attach_stateless(modules::r#static::module);
-    router.attach_stateless(modules::router::module);
+    stateless!(router, modules);
   });
 
   std::thread::spawn(search::index);
