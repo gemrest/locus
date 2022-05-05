@@ -1,9 +1,9 @@
-# ERROR 404
+# Error 404
 
 The requested resource could not be found.
 
 > How did you get here?
 
-## TROUBLESHOOTING
+## Troubleshooting
 
 You can try refreshing the page, if that doesn't change anything; contact Fuwn!

@@ -1,10 +1,10 @@
-# OCAML
+# OCaml
 
 Author: Fuwn
 Created: 2021. 07. 23.
 Last Modified: 2021. 07. 23.
 
-## RESOURCES
+## Resources
 
 => https://www2.lib.uchicago.edu/keith/ocaml-class/why.html OCaml for the Skeptical
 => https://softwareengineering.stackexchange.com/questions/62685/why-isnt-ocaml-more-popular Why isn't OCaml more popular?

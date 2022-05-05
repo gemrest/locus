@@ -14,7 +14,7 @@ Both the Gemini and World Wide Web versions of this Gemini capsule have a focus 
 
 You can read more about the Gemini protocol below.
 
-## PROJECT GEMINI
+## Project Gemini
 
 What is Gemini? You can find a few bullet-points along with documentation and information
 

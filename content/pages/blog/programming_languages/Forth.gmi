@@ -1,10 +1,10 @@
-# FORTH
+# Forth
 
 Author: Fuwn
 Created: 2022. 04. 21.
 Last Modified: 2022. 04. 21.
 
-## RESOURCES
+## Resources
 
 => http://www.forth.org/ Forth Interest Group Home Page
 => https://forth-standard.org/ Forth

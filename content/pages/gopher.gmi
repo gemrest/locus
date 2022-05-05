@@ -1,8 +1,8 @@
-# GOPHER
+# Gopher
 
-## RESOURCES
+## Resources
 
-### CLIENTS
+### Clients
 
 phetch: Similar to Amfora over at Gemini in the aspect that it is a feature-rich and easy-to-use CLI client, once again, my client of choice.
 
@@ -12,7 +12,7 @@ Gopher: A straightforward Gopher client for IOS.
 
 => gopher://forthworks.com/1/iOS/gopher
 
-### GOPHERHOLES
+### Gopherholes
 
 => gopher://bitreich.org/1/lawn The Gopher Lawn
 => gopher://gopherpedia.com Gopherpedia

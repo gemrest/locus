@@ -1,6 +1,6 @@
-# GEMINI
+# Gemini
 
-## WHY GEMINI?
+## Why Gemini?
 
 I have decided to move my personal websites -- and some other projects -- over to the Gemini protocol for a number of reasons (in no specific order):
 
@@ -10,15 +10,15 @@ I have decided to move my personal websites -- and some other projects -- over t
 * The community: From the short experience I have had with the Gemini community, it has been awesome! I love to see the motivation and movement behind this project, it's really inspiring!
 * The development-sphere
 
-## RESOURCES
+## Resources
 
-### UTILITIES
+### Utilities
 
 GemRest: A development studio focused on delivering high performance, Gemini-situated utilities. Run by Fuwn (me)!
 
 => gemini://gem.rest GemRest
 
-### CLIENTS
+### Clients
 
 Lagrange: An amazing desktop GUI client for Gemini and Gopher that is just amazing. My #1 client of choice.
 
@@ -36,7 +36,7 @@ Elaho: An elegant IOS Gemini client which I personally use.
 
 => gemini://elaho.glv.one
 
-### PROXIES
+### Proxies
 
 September: A high performance Gemini-to-HTTP proxy written in Rust, focused on accessibility and speed.
 
@@ -57,7 +57,7 @@ Alternatively, you can also use Capybara's (the Gemini-to-HTTP proxy I use for t
 
 Just replace the "fuwn.me" after "proxy/" with whatever Gemini capsule you would like to visit, but be warned; it is not as sophisticated as the aforementioned proxies above, but it gets the job done!
 
-### FRAMEWORKS & SERVERS
+### Frameworks and Servers
 
 Windmark: An elegant and highly performant async Gemini server framework, written by me! (Fuwn)
 
@@ -73,13 +73,13 @@ Agate: A static Gemini server written in Rust! I'd recommend this to just about 
 
 => gemini://gem.limpet.net/agate Agate
 
-### WINDMARK MODULES
+### Windmark Modules
 
 Windmark Comments: A comment engine module for Windmark
 
 => https://github.com/gemrest/windmark-comments Windmark Comments
 
-### CAPSULES
+### Capsules
 
 => gemini://gemini.circumlunar.space Project Gemini
 => gemini://medusae.space medusae.space gemini directory

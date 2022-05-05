@@ -1,8 +1,8 @@
-# INTERESTS
+# Interests
 
 A collection of somethings that I think are pretty neat and am considering picking up sometime in the future.
 
-## PROGRAMMING LANGUAGES
+## Programming Languages
 
 => https://www.angelcode.com/angelscript/ AngelScript
 => https://github.com/Hirrolot/metalang99 Metalang99
@@ -24,7 +24,7 @@ A collection of somethings that I think are pretty neat and am considering picki
 => https://dlang.org/ D
 => https://vlang.io/ V
 
-## FRAMEWORKS
+## Frameworks
 
 => https://flutter.dev/ Flutter
 => https://svelte.dev/ Svelte

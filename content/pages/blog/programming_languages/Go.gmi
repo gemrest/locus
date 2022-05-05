@@ -1,4 +1,4 @@
-# GOLANG
+# Go
 
 Author: Fuwn
 Created: 2021. 07. 19.
@@ -8,7 +8,7 @@ Golang... Go is quite a funny language to me. I have a hard time taking it serio
 
 Other than the weird chills I get whilst working with it (I just had to get that off my back, for the record), I think Go is a pretty nifty language. Go has the "I can do anything! just not very well..." [0] feeling to it, and it is very much true! I don't write software in Go because it "fast!" or "great on memory!", I write software in Go because it "fast! ...", "to write in!".
 
-> [0] Having the aformentioned quality to it is not particularly a bad thing, I think it actually benefits Go!
+> [0] Having the aforementioned quality to it is not particularly a bad thing, I think it actually benefits Go!
 
 Now, allow me to list some pros and cons that I have to say about Golang with some things to note while reading:
 
@@ -18,7 +18,7 @@ These are ...
 * my opinions!
 * things that aren't explicitly advertised
 
-## PROS
+## Pros
 
 Reasons for anyone to learn or to use Go!
 
@@ -27,7 +27,7 @@ Reasons for anyone to learn or to use Go!
 * Quite easy to pick up (having had prior experience with C-like programming languages)
 * Can do just about anything!
 
-## CONS
+## Cons
 
 Nitpicks, not deal-breakers!
 
@@ -37,7 +37,7 @@ Nitpicks, not deal-breakers!
 
 One thing you might see a lot when there is talk about Go is the claim that Go hasn't "found it's niche" or "it has no real purpose". To that I say; Go's niche is it's simplicity, it's ability to introduce someone into the compiled language space, and to develop software with speed.
 
-## WHO WOULD I RECOMMEND GO TO?
+## Who Would I Recommend Go To?
 
 People who...
 
@@ -46,7 +46,7 @@ People who...
 
 and dare I say it... anyone!
 
-## RESOURCES
+## Resources
 
 => https://golang.org/ golang.org
 => https://interpreterbook.com/ Writing An Interpreter In Go by Thorsten Ball

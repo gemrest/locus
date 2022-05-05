@@ -1,6 +1,6 @@
-# SKILLS
+# Skills
 
-## TECH STACK MASTERY
+## Tack Stack Mastery
 
 * C
 * C++
@@ -12,7 +12,7 @@
 * Rust: Serenity, Rocket, Actix, Tokio
 * PHP: FluxBB, MyBB
 
-## TOOLS, ACCESSORIES
+## Tools and Accessories
 
 * Document Preparation: Markdown, Pandoc, LaTeX, ReST, Microsoft Word, LibreOffice Writer
 * Build Tools: CMake, GNU Make, Divina, Cargo, Ninja
