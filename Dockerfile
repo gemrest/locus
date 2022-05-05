@@ -17,7 +17,10 @@ RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
     && apt-get update \
     && apt-get install -y clang
 
-RUN cargo install --git https://github.com/dimensionhq/fleet fleet-rs
+RUN cargo install \
+    --git https://github.com/dimensionhq/fleet \
+    --rev 693a0d40aaf2dab5acea84ee8de15ec36dd12199 \
+    fleet-rs
 
 FROM environment as builder
 
