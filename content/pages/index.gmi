@@ -2,13 +2,24 @@
 
 Ditch the web, use Gemini!
 
+For those that are previewing this Gemini capsule from the World Wide Web:
+
+> Woah! Why is this website so readable?
+
+This website is *so* readable because it's being served using the Gemini protocol, from there it is converted into HTML, and then served as a website using September with a minimal CSS framework.
+
+Both the Gemini and World Wide Web versions of this Gemini capsule have a focus on readability! and every form of information should put concern on readability, but unfortunately, many don't... so hold them accountable!
+
+=> https://github.com/gemrest/september September
+
+You can read more about the Gemini protocol below.
+
 ## PROJECT GEMINI
 
-What is Gemini? If you want it quick and simple, DT from DistroTube explains it well:
+What is Gemini? You can find few bullet-points along with documentation and information
 
-=> gemini://distro.tube distro.tube
-=> https://distrotube.com distrotube.com
+=> gemini://gemini.circumlunar.space/ here!
 
 You can also read more into Gemini
 
-=> /gemini here!
+=> /gemini here, on this Gemini capsule.
