@@ -1,4 +1,4 @@
-# FUWN.SPACE
+# Fuwn.space
 
 Ditch the web, use Gemini!
 
