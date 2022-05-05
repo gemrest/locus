@@ -1,10 +1,5 @@
 # GEMINI
 
-What is Gemini? I think DT from DistroTube explains it well:
-
-=> gemini://distro.tube distro.tube
-=> https://distrotube.com distrotube.com
-
 ## WHY GEMINI?
 
 I have decided to move my personal websites -- and some other projects -- over to the Gemini protocol for a number of reasons (in no specific order):
