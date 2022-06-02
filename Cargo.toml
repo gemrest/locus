@@ -21,7 +21,7 @@ codegen-units = 1
 
 [dependencies]
 # Gemini
-windmark = { version = "0.1.14", features = ["logger", "auto-deduce-mime"] }
+windmark = { version = "0.1.15", features = ["logger", "auto-deduce-mime"] }
 
 # Loggging
 log = "0.4.16"
