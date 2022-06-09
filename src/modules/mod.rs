@@ -21,6 +21,7 @@ use crate::statelesses;
 mod multi_blog;
 mod random;
 mod remarks;
+mod robots;
 mod router;
 pub mod search;
 mod sitemap;
@@ -30,6 +31,6 @@ mod uptime;
 pub fn module(router: &mut windmark::Router) {
   statelesses!(
     router, uptime, sitemap, search, remarks, multi_blog, random, r#static,
-    router
+    router, robots
   );
 }

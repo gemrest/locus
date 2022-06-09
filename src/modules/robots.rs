@@ -16,37 +16,28 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-use crate::batch_mount;
+use windmark::Response;
 
 pub fn module(router: &mut windmark::Router) {
-  batch_mount!(
-    "files",
+  crate::route::track_mount(
     router,
-    ("/favicon.txt", "This Gemini capsule's icon", "favicon.txt"),
-  );
+    "/robots.txt",
+    "Crawler traffic manager; for robots, not humans",
+    Box::new(|context| {
+      let mut content =
+        include_str!(concat!("../../content/meta/robots.txt")).to_string();
 
-  batch_mount!(
-    "pages",
-    router,
-    ("/", "This Gemini capsule's homepage", "index"),
-    ("/contact", "Many ways to contact Fuwn", "contact"),
-    ("/donate", "Many ways to donate to Fuwn", "donate"),
-    (
-      "/gemini",
-      "Information and resources for the Gemini protocol",
-      "gemini"
-    ),
-    (
-      "/gopher",
-      "Information and resources for the Gopher protocol",
-      "gopher"
-    ),
-    ("/interests", "A few interests of Fuwn", "interests"),
-    ("/skills", "A few skills of Fuwn", "skills"),
-    (
-      "/licensing",
-      "The licensing terms of this Gemini capsule",
-      "licensing"
-    ),
+      if let Ok(response) = reqwest::blocking::get(
+        "https://gist.githubusercontent.com/Fuwn/bc3bf8b8966bb123b48af7d9dfb857c3/raw/cbc1f13685231f0e4c6c2ccc7ec8aa2cd46d377b/locus_robots.txt",
+      ) {
+        if let Ok(response_content) = response.text() {
+          content = response_content;
+        }
+      }
+
+      crate::route::cache(&context, &content);
+
+      Response::Success(content)
+    }),
   );
 }
