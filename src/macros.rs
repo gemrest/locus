@@ -96,12 +96,12 @@ macro_rules! mount_file {
 
 #[macro_export]
 macro_rules! batch_mount {
-  ("pages", $router:ident, $(($path:literal, $description:literal, $file:literal),)*) => {
+  ("pages", $router:ident, $(($path:literal, $description:literal, $file:literal)),* $(,)?) => {
     $(
       $crate::mount_page!($router, $path, $description, $file);
     )*
   };
-  ("files", $router:ident, $(($path:literal, $description:literal, $file:literal),)*) => {
+  ("files", $router:ident, $(($path:literal, $description:literal, $file:literal)),* $(,)?) => {
     $(
       $crate::mount_file!($router, $path, $description, $file);
     )*
@@ -117,7 +117,7 @@ macro_rules! stateless {
 
 #[macro_export]
 macro_rules! statelesses {
-  ($router:ident, $($module:tt),*) => {
+  ($router:ident, $($module:tt),* $(,)?) => {
     $($crate::stateless!($router, $module);)*
   };
 }
