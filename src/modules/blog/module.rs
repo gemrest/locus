@@ -236,22 +236,34 @@ pub fn module(router: &mut windmark::Router) {
       let header = if let Ok(header) = construct_header(&config, &title) {
         header
       } else {
-        "".to_string()
+        ("".to_string(), "".to_string())
       };
 
       track_mount(
         router,
         &format!("/blog/{}/{}", fixed_blog_name, title.to_lowercase()),
-        &format!("{}, {} ― An entry to one of Fuwn's blogs", name, title),
+        &format!(
+          "{}, {} ― {}",
+          name,
+          title,
+          if header.1.is_empty() {
+            "An entry to one of Fuwn's blogs".to_string()
+          } else {
+            header.1
+          }
+        ),
         Box::new(move |context| {
-          success!(format!("{}\n{}", header, contents), context)
+          success!(format!("{}\n{}", header.0, contents), context)
         }),
       );
     }
   }
 }
 
-fn construct_header(config: &Option<Blog>, name: &str) -> Result<String, ()> {
+fn construct_header(
+  config: &Option<Blog>,
+  name: &str,
+) -> Result<(String, String), ()> {
   let post =
     if let Some(posts) = config.clone().unwrap_or_default().posts().clone() {
       if let Some(post) = posts.get(name) {
@@ -263,28 +275,31 @@ fn construct_header(config: &Option<Blog>, name: &str) -> Result<String, ()> {
       return Err(());
     };
 
-  Ok(format!(
-    "# {}\n\n{}{}{}{}",
-    post.name().clone().unwrap_or_else(|| name.to_string()),
-    if post.author().is_some() {
-      format!("Author: {}\n", post.author().clone().unwrap())
-    } else {
-      "".to_string()
-    },
-    if post.created().is_some() {
-      format!("Created: {}\n", post.created().clone().unwrap())
-    } else {
-      "".to_string()
-    },
-    if post.last_modified().is_some() {
-      format!("Last Modified: {}\n", post.last_modified().clone().unwrap())
-    } else {
-      "".to_string()
-    },
-    if post.description().is_some() {
-      format!("\n{}\n", post.description().clone().unwrap())
-    } else {
-      "".to_string()
-    },
+  Ok((
+    format!(
+      "# {}\n\n{}{}{}{}",
+      post.name().clone().unwrap_or_else(|| name.to_string()),
+      if post.author().is_some() {
+        format!("Author: {}\n", post.author().clone().unwrap())
+      } else {
+        "".to_string()
+      },
+      if post.created().is_some() {
+        format!("Created: {}\n", post.created().clone().unwrap())
+      } else {
+        "".to_string()
+      },
+      if post.last_modified().is_some() {
+        format!("Last Modified: {}\n", post.last_modified().clone().unwrap())
+      } else {
+        "".to_string()
+      },
+      if post.description().is_some() {
+        format!("\n{}\n", post.description().clone().unwrap())
+      } else {
+        "".to_string()
+      },
+    ),
+    post.description().clone().unwrap_or_default(),
   ))
 }
