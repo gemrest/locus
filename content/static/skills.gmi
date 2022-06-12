@@ -1,6 +1,6 @@
 # Skills
 
-## Tack Stack Mastery
+## Tech Stack Mastery
 
 * C
 * C++
