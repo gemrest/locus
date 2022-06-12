@@ -67,7 +67,7 @@ macro_rules! mount_page {
       $at,
       Box::new(|context| {
         let content =
-          include_str!(concat!("../../content/pages/", $file, ".gmi"));
+          include_str!(concat!("../../content/static/", $file, ".gmi"));
 
         $crate::route::cache(&context, &content);
         $crate::success!(content, context)
