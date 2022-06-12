@@ -1,9 +1,3 @@
-# Forth
-
-Author: Fuwn
-Created: 2022. 04. 21.
-Last Modified: 2022. 04. 21.
-
 ## Resources
 
 => http://www.forth.org/ Forth Interest Group Home Page

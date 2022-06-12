@@ -1,11 +1,3 @@
-# GemRest
-
-Author: Fuwn
-Created: 2022. 06. 11.
-Last Modified: 2022. 06. 11.
-
-Simple solutions designed for the Gemini protocol; so you can rest easy by letting us handle the hassle.
-
 => https://github.com/gemrest GitHub
 => https://gem.rest/ Website
 => gemini://gem.rest/ Gemini Capsule

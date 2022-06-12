@@ -1,0 +1,25 @@
+{
+  "description": "Thoughts and Resources of the Programming Languages Fuwn Uses",
+  "posts": {
+    "Go": {
+      "author": "Fuwn",
+      "created": "2021. 07. 19.",
+      "last_modified": "2021. 07. 20."
+    },
+    "Forth": {
+      "author": "Fuwn",
+      "created": "2022. 04. 21.",
+      "last_modified": "2022. 04. 21."
+    },
+    "OCaml": {
+      "author": "Fuwn",
+      "created": "2021. 07. 23.",
+      "last_modified": "2021. 07. 23."
+    },
+    "Rust": {
+      "author": "Fuwn",
+      "created": "2021. 07. 23.",
+      "last_modified": "2021. 07. 23."
+    }
+  }
+}

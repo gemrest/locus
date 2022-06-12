@@ -16,19 +16,7 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-mod blog;
-mod random;
-mod remarks;
-mod robots;
-mod router;
-pub mod search;
-mod sitemap;
-mod r#static;
-mod uptime;
+mod config;
+mod module;
 
-pub fn module(router: &mut windmark::Router) {
-  crate::statelesses!(
-    router, uptime, sitemap, search, remarks, blog, random, r#static, router,
-    robots,
-  );
-}
+pub use module::module;

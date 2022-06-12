@@ -1,9 +1,3 @@
-# Go
-
-Author: Fuwn
-Created: 2021. 07. 19.
-Last Modified: 2021. 07. 20.
-
 Golang... Go is quite a funny language to me. I have a hard time taking it seriously, not because of the name, but because of the way it handles. Don't get me wrong, Go is a great tool to have under your belt, but it just feels very... "childish" ... to ME.
 
 Other than the weird chills I get whilst working with it (I just had to get that off my back, for the record), I think Go is a pretty nifty language. Go has the "I can do anything! just not very well..." [0] feeling to it, and it is very much true! I don't write software in Go because it "fast!" or "great on memory!", I write software in Go because it "fast! ...", "to write in!".

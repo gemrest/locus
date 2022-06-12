@@ -22,7 +22,7 @@ use std::{
   io::Read,
 };
 
-use crate::{route::track_mount, success};
+use crate::{modules::blog::config::Blog, route::track_mount, success};
 
 #[allow(clippy::too_many_lines)]
 pub fn module(router: &mut windmark::Router) {
@@ -111,14 +111,38 @@ pub fn module(router: &mut windmark::Router) {
           blog_clone.len(),
           blog_clone
             .iter()
-            .map(|(title, _)| title.clone())
-            .collect::<Vec<_>>()
+            .map(|(title, entries)| (title.clone(), entries.clone()))
+            .collect::<Vec<(_, _)>>()
             .into_iter()
-            .map(|i| {
+            .map(|(title, entries)| {
+              let config: Option<Blog> =
+                entries.get("blog.json").and_then(|content| {
+                  if let Ok(config) = Blog::from_string(content) {
+                    Some(config)
+                  } else {
+                    None
+                  }
+                });
+            let name = config
+              .clone()
+              .unwrap_or_default()
+              .name()
+              .clone()
+              .unwrap_or_else(|| title.clone());
+            let description = config
+              .unwrap_or_default()
+              .description()
+              .clone()
+              .unwrap_or_else(|| "One of Fuwn's blogs".to_string());
+
               format!(
-                "=> {} {}",
-                format_args!("/blog/{}", i.replace(' ', "_").to_lowercase(),),
-                i
+                "=> {} {} ― {}",
+                format_args!(
+                  "/blog/{}",
+                  name.replace(' ', "_").to_lowercase(),
+                ),
+                name,
+              description
               )
             })
             .collect::<Vec<_>>()
@@ -129,36 +153,75 @@ pub fn module(router: &mut windmark::Router) {
     }),
   );
 
-  for (blog, entries) in blogs {
+  for (blog, mut entries) in blogs {
     let fixed_blog_name = blog.replace(' ', "_").to_lowercase();
-    let entries_clone = entries.clone();
     let fixed_blog_name_clone = fixed_blog_name.clone();
-    let blog_clone = blog.clone();
+    let config: Option<Blog> =
+      entries.remove_entry("blog.json").and_then(|(_, content)| {
+        if let Ok(config) = Blog::from_string(&content) {
+          Some(config)
+        } else {
+          None
+        }
+      });
+    let entries_clone = entries.clone();
+    let name = config
+      .clone()
+      .unwrap_or_default()
+      .name()
+      .clone()
+      .unwrap_or_else(|| blog.clone());
+    let description = config
+      .clone()
+      .unwrap_or_default()
+      .description()
+      .clone()
+      .unwrap_or_else(|| "One of Fuwn's blogs".to_string());
+    let config_clone = config.clone();
 
     track_mount(
       router,
       &format!("/blog/{}", fixed_blog_name),
-      &format!("{} ― One of Fuwn's blogs", &blog),
+      &format!("{} ― {}", name, description),
       Box::new(move |context| {
         success!(
           &format!(
-            "# {} ({})\n\n{}",
+            "# {} ({})\n\n{}\n\n{}",
             blog.to_uppercase(),
             entries_clone.len(),
+            description,
             entries_clone
               .iter()
               .map(|(title, _)| title.clone())
               .collect::<Vec<_>>()
               .into_iter()
-              .map(|i| {
+              .map(|title| {
                 format!(
-                  "=> {} {}",
+                  "=> {} {}{}",
                   format_args!(
                     "/blog/{}/{}",
                     fixed_blog_name_clone,
-                    i.to_lowercase()
+                    title.to_lowercase()
                   ),
-                  i
+                  title,
+                  {
+                    let post = config_clone
+                      .clone()
+                      .unwrap_or_default()
+                      .posts()
+                      .clone()
+                      .and_then(|posts| posts.get(&title).cloned())
+                      .unwrap_or_default()
+                      .description()
+                      .clone()
+                      .unwrap_or_else(|| "".to_string());
+
+                    if post.is_empty() {
+                      "".to_string()
+                    } else {
+                      format!(" ― {}", post)
+                    }
+                  }
                 )
               })
               .collect::<Vec<_>>()
@@ -170,15 +233,58 @@ pub fn module(router: &mut windmark::Router) {
     );
 
     for (title, contents) in entries {
+      let header = if let Ok(header) = construct_header(&config, &title) {
+        header
+      } else {
+        "".to_string()
+      };
+
       track_mount(
         router,
         &format!("/blog/{}/{}", fixed_blog_name, title.to_lowercase()),
-        &format!(
-          "{}, {} ― An entry to one of Fuwn's blogs",
-          blog_clone, title
-        ),
-        Box::new(move |context| success!(contents, context)),
+        &format!("{}, {} ― An entry to one of Fuwn's blogs", name, title),
+        Box::new(move |context| {
+          success!(format!("{}\n{}", header, contents), context)
+        }),
       );
     }
   }
+}
+
+fn construct_header(config: &Option<Blog>, name: &str) -> Result<String, ()> {
+  let post =
+    if let Some(posts) = config.clone().unwrap_or_default().posts().clone() {
+      if let Some(post) = posts.get(name) {
+        post.clone()
+      } else {
+        return Err(());
+      }
+    } else {
+      return Err(());
+    };
+
+  Ok(format!(
+    "# {}\n\n{}{}{}{}",
+    post.name().clone().unwrap_or_else(|| name.to_string()),
+    if post.author().is_some() {
+      format!("Author: {}\n", post.author().clone().unwrap())
+    } else {
+      "".to_string()
+    },
+    if post.created().is_some() {
+      format!("Created: {}\n", post.created().clone().unwrap())
+    } else {
+      "".to_string()
+    },
+    if post.last_modified().is_some() {
+      format!("Last Modified: {}\n", post.last_modified().clone().unwrap())
+    } else {
+      "".to_string()
+    },
+    if post.description().is_some() {
+      format!("\n{}\n", post.description().clone().unwrap())
+    } else {
+      "".to_string()
+    },
+  ))
 }
