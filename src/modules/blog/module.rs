@@ -26,7 +26,7 @@ use crate::{modules::blog::config::Blog, route::track_mount, success};
 
 #[allow(clippy::too_many_lines)]
 pub fn module(router: &mut windmark::Router) {
-  let paths = read_dir("content/pages/blog").unwrap();
+  let paths = read_dir("content/blogs").unwrap();
   let mut blogs: HashMap<String, HashMap<_, _>> = HashMap::new();
 
   for path in paths {
@@ -69,12 +69,12 @@ pub fn module(router: &mut windmark::Router) {
           {
             #[cfg(windows)]
             {
-              "content/pages/blog\\"
+              "content/blogs\\"
             }
 
             #[cfg(unix)]
             {
-              "content/pages/blog/"
+              "content/blogs/"
             }
           },
           "",
