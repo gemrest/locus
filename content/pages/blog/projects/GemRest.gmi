@@ -1,0 +1,74 @@
+# GemRest
+
+Author: Fuwn
+Created: 2022. 06. 11.
+Last Modified: 2022. 06. 11.
+
+Simple solutions designed for the Gemini protocol; so you can rest easy by letting us handle the hassle.
+
+=> https://github.com/gemrest GitHub
+=> https://gem.rest/ Website
+=> gemini://gem.rest/ Gemini Capsule
+
+## Germ
+
+The Ultimate Gemini Toolkit.
+
+Germ is a toolkit for the Gemini protocol which aims to have a little something for everyone. At the moment, Germ has ZERO dependencies (unless you use the request feature), and Germ will continue to try its hardest to have as few dependencies as possible.
+
+=> https://github.com/gemrest/germ GitHub
+
+## September
+
+A simple and efficient Gemini-to-HTTP proxy written in Rust.
+
+=> https://github.com/gemrest/september GitHub
+=> https://fuwn.me/ Demo
+
+## Windmark
+
+Windmark is an elegant and highly performant, async Gemini server framework for the modern age!
+
+=> https://github.com/gemrest/windmark GitHub
+=> https://fuwn.me/ Demo (Website)
+=> gemini://fuwn.me/ Demo (Gemini Capsule)
+
+## Laurali
+
+An object-oriented Gemini server for Deno!
+
+* Super simple
+* Object-oriented
+* Decorators!
+* Fun!
+
+=> https://github.com/gemrest/laurali GitHub
+
+## Maple
+
+A very simple static Gemini server, now with Titan support!
+
+=> https://github.com/gemrest/maple GitHub
+=> https://gem.rest/ Demo (Website)
+=> gemini://gem.rest/ Demo (Gemini Capsule)
+
+## Windmark Comments
+
+A comment engine module for Windmark.
+
+=> https://github.com/gemrest/windmark-comments GitHub
+
+## Capybara
+
+Capybara is an HTTP to Gemini proxy designed to ... proxy ... Gemini capsules over to HTTP.
+
+Capybara is no longer in active development! It is advised to switch over to September!
+
+=> https://github.com/gemrest/capybara GitHub
+=> https://github.com/gemrest/september September
+
+## viv
+
+toy gemini client in ansi c (now sorta c99)
+
+=> https://github.com/gemrest/viv GitHub
