@@ -18,22 +18,43 @@
 
 use std::lazy::SyncLazy;
 
-pub static REMARKS: SyncLazy<Vec<String>> = SyncLazy::new(|| {
+use serde::{Deserialize, Serialize};
+
+static REMARKS: SyncLazy<Vec<Remark>> = SyncLazy::new(|| {
   serde_json::from_str(include_str!("../../content/json/remarks.json")).unwrap()
 });
+
+#[derive(Serialize, Deserialize)]
+struct Remark {
+  remark:  String,
+  created: String,
+  edited:  Option<String>,
+}
 
 pub fn module(router: &mut windmark::Router) {
   crate::route::track_mount(
     router,
     "/remarks",
-    "Fuwn's remarks",
+    "Fuwn's thoughts which are too short to be their own blog; but just long \
+     enough to be a remark.",
     Box::new(|context| {
       crate::success!(
         format!(
-          "# REMARKS\n\n{}",
+          "# Remarks\n\nFuwn's thoughts which are too short to be their own \
+           blog; but just long enough to be a remark.\n\n{}",
           REMARKS
             .iter()
-            .map(|r| format!("* {}", r))
+            .map(|r| {
+              format!(
+                "* \"{}\" {}{}",
+                r.remark,
+                r.created,
+                r.edited.as_ref().map_or_else(
+                  || "".to_string(),
+                  |edited| format!(" Edited {}", edited)
+                )
+              )
+            })
             .collect::<Vec<String>>()
             .join("\n")
         ),

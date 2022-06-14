@@ -1,4 +1,10 @@
 [
-  "Forth users all seem to be part of a cult.",
-  "COBOL is a great language!"
+  {
+    "remark": "Forth users all seem to be part of a cult.",
+    "created": "2022. 04. 14."
+  },
+  {
+    "remark": "COBOL is a great language!",
+    "created": "2022. 04. 14."
+  }
 ]
