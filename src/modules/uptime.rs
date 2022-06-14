@@ -23,6 +23,8 @@ use tokio::time::Instant;
 static UPTIME: SyncLazy<Instant> = SyncLazy::new(Instant::now);
 
 pub fn module(router: &mut windmark::Router) {
+  UPTIME.elapsed();
+
   crate::route::track_mount(
     router,
     "/uptime",
