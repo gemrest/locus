@@ -58,7 +58,7 @@ pub(super) fn module(router: &mut windmark::Router) {
     "A search engine for this Gemini capsule",
     Box::new(|context| {
       let mut response = String::from(
-        "# SEARCH\n\n=> /search?action=go Search!\n=> /random I'm Feeling \
+        "# Search\n\n=> /search?action=go Search!\n=> /random I'm Feeling \
          Lucky",
       );
 

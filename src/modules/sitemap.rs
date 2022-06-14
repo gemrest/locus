@@ -24,7 +24,7 @@ pub fn module(router: &mut windmark::Router) {
     Box::new(|context| {
       crate::success!(
         format!(
-          "# SITEMAP\n\n{}",
+          "# Sitemap\n\n{}",
           (*crate::route::ROUTES.lock().unwrap())
             .iter()
             .map(|(r, d)| format!("=> {} {}", r, d.description))

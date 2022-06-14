@@ -107,7 +107,7 @@ pub fn module(router: &mut windmark::Router) {
     Box::new(move |context| {
       success!(
         &format!(
-          "# BLOGS ({})\n\n{}",
+          "# Blogs ({})\n\n{}",
           blog_clone.len(),
           blog_clone
             .iter()
@@ -187,7 +187,7 @@ pub fn module(router: &mut windmark::Router) {
         success!(
           &format!(
             "# {} ({})\n\n{}\n\n{}",
-            blog.to_uppercase(),
+            blog,
             entries_clone.len(),
             description,
             entries_clone
