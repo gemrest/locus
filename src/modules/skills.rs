@@ -16,8 +16,6 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-#![allow(unused)]
-
 use std::{collections::HashMap, lazy::SyncLazy};
 
 type SkillTree = HashMap<String, Vec<HashMap<String, Option<Vec<String>>>>>;
