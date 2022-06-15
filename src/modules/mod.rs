@@ -23,12 +23,13 @@ mod robots;
 mod router;
 pub mod search;
 mod sitemap;
+mod skills;
 mod r#static;
 mod uptime;
 
 pub fn module(router: &mut windmark::Router) {
   crate::statelesses!(
     router, uptime, sitemap, search, remarks, blog, random, r#static, router,
-    robots,
+    robots, skills,
   );
 }

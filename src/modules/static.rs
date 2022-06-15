@@ -42,7 +42,7 @@ pub fn module(router: &mut windmark::Router) {
       "gopher"
     ),
     ("/interests", "A few interests of Fuwn", "interests"),
-    ("/skills", "A few skills of Fuwn", "skills"),
+    // ("/skills", "A few skills of Fuwn", "skills"),
     (
       "/licensing",
       "The licensing terms of this Gemini capsule",

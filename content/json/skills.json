@@ -1,0 +1,94 @@
+{
+  "Tech Stack Mastery": [
+    {
+      "C": null
+    },
+    {
+      "C++": null
+    },
+    {
+      "Go": null
+    },
+    {
+      "Node.js (JavaScript, TypeScript)": [
+        "Discord.js",
+        "Angular",
+        "Express",
+        "Akairo",
+        "React",
+        "Nuxt",
+        "Vue",
+        "Svelte"
+      ]
+    },
+    {
+      "Deno": null
+    },
+    {
+      "Python": null
+    },
+    {
+      "JVM (Java, Clojure)": [
+        "Bukkit",
+        "Spark",
+        "JDA"
+      ]
+    },
+    {
+      "Rust": [
+        "Serenity",
+        "Rocket",
+        "Actix",
+        "Tokio"
+      ]
+    },
+    {
+      "PHP": [
+        "FluxBB",
+        "MyBB"
+      ]
+    }
+  ],
+  "Tools and Accessories": [
+    {
+      "Document Preparation": [
+        "Markdown",
+        "Pandoc",
+        "LaTeX",
+        "ReST",
+        "Microsoft Word",
+        "LibreOffice Writer"
+      ]
+    },
+    {
+      "Build Tools": [
+        "CMake",
+        "GNU Make",
+        "Divina",
+        "Cargo",
+        "Ninja",
+        "Meson",
+        "Bazel"
+      ]
+    },
+    {
+      "Version Control": [
+        "Git",
+        "Mercurial"
+      ]
+    },
+    {
+      "Game Engines": [
+        "Unity"
+      ]
+    },
+    {
+      "Databases": [
+        "PostgreSQL",
+        "SQLite",
+        "MongoDB",
+        "MySQL"
+      ]
+    }
+  ]
+}
