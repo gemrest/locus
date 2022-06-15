@@ -16,35 +16,40 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-use crate::batch_mount;
+use std::{collections::HashMap, lazy::SyncLazy};
+
+type ContactMap = HashMap<String, HashMap<String, String>>;
+
+static CONTACT_MAP: SyncLazy<ContactMap> = SyncLazy::new(|| {
+  serde_json::from_str(include_str!("../../content/json/contacts.json"))
+    .unwrap()
+});
 
 pub fn module(router: &mut windmark::Router) {
-  batch_mount!(
-    "files",
-    router,
-    ("/favicon.txt", "This Gemini capsule's icon", "favicon.txt"),
-  );
+  let mut contacts = CONTACT_MAP
+    .iter()
+    .map(|(category, contacts)| {
+      format!("## {}\n\n{}", category, {
+        let mut contacts = contacts
+          .iter()
+          .map(|(tag, href)| format!("=> {} {}", href, tag))
+          .collect::<Vec<_>>();
 
-  batch_mount!(
-    "pages",
+        contacts.sort();
+
+        contacts.join("\n")
+      })
+    })
+    .collect::<Vec<_>>();
+
+  contacts.sort();
+
+  crate::route::track_mount(
     router,
-    ("/", "This Gemini capsule's homepage", "index"),
-    ("/donate", "Many ways to donate to Fuwn", "donate"),
-    (
-      "/gemini",
-      "Information and resources for the Gemini protocol",
-      "gemini"
-    ),
-    (
-      "/gopher",
-      "Information and resources for the Gopher protocol",
-      "gopher"
-    ),
-    ("/interests", "A few interests of Fuwn", "interests"),
-    (
-      "/licensing",
-      "The licensing terms of this Gemini capsule",
-      "licensing"
-    ),
+    "/contact",
+    "A Few Skills of Fuwn",
+    Box::new(move |context| {
+      crate::success!(format!("# Contact\n\n{}", contacts.join("\n")), context)
+    }),
   );
 }

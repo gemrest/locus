@@ -17,6 +17,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 mod blog;
+mod contact;
 mod random;
 mod remarks;
 mod robots;
@@ -30,6 +31,6 @@ mod uptime;
 pub fn module(router: &mut windmark::Router) {
   crate::statelesses!(
     router, uptime, sitemap, search, remarks, blog, random, r#static, router,
-    robots, skills,
+    robots, skills, contact,
   );
 }
