@@ -27,6 +27,8 @@ jobs:
           push: true
           context: .
           tags: fuwn/locus:latest
+          cache-from: type=registry,ref=fuwn/locus:latest
+          cache-to: type=inline
           
       - name: Deploy 🚀
         uses: distributhor/workflow-webhook@v2
