@@ -23,6 +23,11 @@ pub fn module(router: &mut windmark::Router) {
     "files",
     router,
     ("/favicon.txt", "This Gemini capsule's icon", "favicon.txt"),
+    (
+      "/robots.txt",
+      "Crawler traffic manager; for robots, not humans",
+      "robots.txt"
+    ),
   );
 
   batch_mount!(

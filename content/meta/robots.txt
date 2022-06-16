@@ -1,3 +1,7 @@
 User-agent: *
 Disallow: /x
 Disallow: /proxy
+
+User-agent: DataForSeoBot
+Disallow: /x
+Disallow: /proxy

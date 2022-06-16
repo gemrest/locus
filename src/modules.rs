@@ -21,7 +21,7 @@ mod contact;
 mod interests;
 mod random;
 mod remarks;
-mod robots;
+// mod robots;
 mod router;
 pub mod search;
 mod sitemap;
@@ -32,6 +32,6 @@ mod uptime;
 pub fn module(router: &mut windmark::Router) {
   crate::statelesses!(
     router, uptime, sitemap, search, remarks, blog, random, r#static, router,
-    robots, skills, contact, interests,
+    skills, contact, interests,
   );
 }
