@@ -10,3 +10,6 @@ target/
 # Fleet
 .cargo/
 fleet.toml
+
+# Git
+.git
