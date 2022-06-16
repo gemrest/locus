@@ -1,6 +1,7 @@
 name: Docker 🐳
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Check ✅"]
     types:
@@ -25,3 +26,8 @@ jobs:
         with:
           push: true
           tags: fuwn/locus:latest
+          
+      - name: Deploy 🚀
+        uses: distributhor/workflow-webhook@v2
+        with:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
