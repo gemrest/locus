@@ -1,0 +1,30 @@
+{
+  "Programming Languages": {
+    "AngelScript": "https://www.angelcode.com/angelscript/",
+    "Metalang99": "https://github.com/Hirrolot/metalang99",
+    "PureScript": "https://www.purescript.org/",
+    "Crystal": "https://crystal-lang.org/",
+    "Haskell": "https://www.haskell.org/",
+    "Cython": "https://cython.org/",
+    "Gradle": "https://gradle.org/",
+    "Kotlin": "https://kotlinlang.org/",
+    "Julia": "https://julialang.org/",
+    "Ocaml": "https://ocaml.org/",
+    "Scala": "https://www.scala-lang.org/",
+    "Dart": "https://dart.dev/",
+    "Ruby": "https://www.ruby-lang.org/",
+    "Silq": "https://silq.ethz.ch/",
+    "Nim": "https://nim-lang.org/",
+    "Zig": "https://ziglang.org/",
+    "Q#": "https://docs.microsoft.com/en-us/azure/quantum/overview-what-is-qsharp-and-qdk",
+    "D": "https://dlang.org/",
+    "V": "https://vlang.io/"
+  },
+  "Frameworks": {
+    "Flutter": "https://flutter.dev/",
+    "Svelte": "https://svelte.dev/",
+    "Amber": "https://amberframework.org/",
+    "Rails": "https://rubyonrails.org/",
+    "Haxe": "https://haxe.org/"
+  }
+}

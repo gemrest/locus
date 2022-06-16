@@ -40,7 +40,6 @@ pub fn module(router: &mut windmark::Router) {
       "Information and resources for the Gopher protocol",
       "gopher"
     ),
-    ("/interests", "A few interests of Fuwn", "interests"),
     (
       "/licensing",
       "The licensing terms of this Gemini capsule",
