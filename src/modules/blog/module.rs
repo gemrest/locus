@@ -22,7 +22,12 @@ use std::{
   io::Read,
 };
 
-use crate::{modules::blog::config::Blog, route::track_mount, success};
+use crate::{
+  modules::blog::config::Blog,
+  route::track_mount,
+  success,
+  xml::{Item as XmlItem, Writer as XmlWriter},
+};
 
 #[allow(clippy::too_many_lines)]
 pub fn module(router: &mut windmark::Router) {
@@ -156,6 +161,7 @@ pub fn module(router: &mut windmark::Router) {
   for (blog, mut entries) in blogs {
     let fixed_blog_name = blog.replace(' ', "_").to_lowercase();
     let fixed_blog_name_clone = fixed_blog_name.clone();
+    let fixed_blog_name_clone_2 = fixed_blog_name.clone();
     let config: Option<Blog> =
       entries.remove_entry("blog.json").and_then(|(_, content)| {
         if let Ok(config) = Blog::from_string(&content) {
@@ -178,15 +184,29 @@ pub fn module(router: &mut windmark::Router) {
       .clone()
       .unwrap_or_else(|| "One of Fuwn's blogs".to_string());
     let config_clone = config.clone();
+    let mut xml = XmlWriter::builder();
+
+    xml.add_field("title", &name);
+    xml.add_field(
+      "link",
+      &format!("gemini://fuwn.me/blog/{}", fixed_blog_name),
+    );
+    xml.add_field("description", &description);
+    xml.add_field("generator", "locus");
+    xml.add_field("lastBuildDate", &chrono::Local::now().to_rfc2822());
+    xml.add_link(&format!("gemini://fuwn.me/blog/{}.xml", fixed_blog_name));
 
     track_mount(
       router,
       &format!("/blog/{}", fixed_blog_name),
       &format!("{} ― {}", name, description),
       Box::new(move |context| {
+        let fixed_blog_name = fixed_blog_name_clone.clone();
+
         success!(
           &format!(
-            "# {} ({})\n\n{}\n\n{}",
+            "# {} ({})\n\n{}\n\n{}\n\n## Really Simple Syndication\n\nAccess \
+             {0}'s RSS feed\n\n=> {} here!",
             blog,
             entries_clone.len(),
             description,
@@ -200,7 +220,7 @@ pub fn module(router: &mut windmark::Router) {
                   "=> {} {}{}",
                   format_args!(
                     "/blog/{}/{}",
-                    fixed_blog_name_clone,
+                    fixed_blog_name,
                     title.to_lowercase()
                   ),
                   title,
@@ -225,7 +245,8 @@ pub fn module(router: &mut windmark::Router) {
                 )
               })
               .collect::<Vec<_>>()
-              .join("\n")
+              .join("\n"),
+            format_args!("/blog/{}.xml", fixed_blog_name),
           ),
           context
         )
@@ -238,6 +259,42 @@ pub fn module(router: &mut windmark::Router) {
       } else {
         ("".to_string(), "".to_string())
       };
+      let fixed_blog_name = fixed_blog_name_clone_2.clone();
+
+      xml.add_item(&{
+        let mut builder = XmlItem::builder();
+
+        builder.add_field("title", &title);
+        builder.add_field(
+          "link",
+          &format!(
+            "gemini://fuwn.me/blog/{}/{}",
+            fixed_blog_name,
+            title.to_lowercase()
+          ),
+        );
+        builder.add_field("description", &contents);
+        builder.add_field(
+          "guid",
+          &format!(
+            "gemini://fuwn.me/blog/{}/{}",
+            fixed_blog_name,
+            title.to_lowercase()
+          ),
+        );
+
+        if let Some(configuration) = &config {
+          if let Some(posts) = configuration.posts() {
+            if let Some(post) = posts.get(&title) {
+              if let Some(date) = post.created() {
+                builder.add_field("pubDate", date);
+              }
+            }
+          }
+        }
+
+        builder
+      });
 
       track_mount(
         router,
@@ -253,10 +310,22 @@ pub fn module(router: &mut windmark::Router) {
           }
         ),
         Box::new(move |context| {
-          success!(format!("{}\n{}", header.0, contents), context)
+          success!(format!("{}\n{}", header.0, contents,), context)
         }),
       );
     }
+
+    track_mount(
+      router,
+      &format!("/blog/{}.xml", fixed_blog_name),
+      &format!("Really Simple Syndication for the {} blog", name),
+      Box::new(move |_| {
+        windmark::Response::SuccessWithMime(
+          xml.to_string(),
+          "text/rss+xml".to_string(),
+        )
+      }),
+    );
   }
 }
 

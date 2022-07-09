@@ -32,6 +32,7 @@
 mod macros;
 mod modules;
 mod route;
+mod xml;
 
 #[macro_use]
 extern crate log;

@@ -85,7 +85,7 @@ macro_rules! mount_file {
     ($router).mount(
       $at,
       Box::new(|_| {
-        windmark::Response::SuccessFile(include_bytes!(concat!(
+        windmark::Response::SuccessFileAuto(include_bytes!(concat!(
           "../../content/meta/",
           $file
         )))

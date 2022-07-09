@@ -21,9 +21,10 @@ codegen-units = 1
 
 [dependencies]
 tokio = { version = "0.2.4", features = ["full"] } # Asynchronous Runtime
+chrono = "0.4.19" # Date and Time
 pickledb = "0.4.1" # Database
 tantivy = "0.17.0" # Full-text Search Engine
-windmark = { version = "0.1.16", features = [
+windmark = { version = "0.1.19", features = [
   "logger",
   "auto-deduce-mime"
 ] } # Gemini Server Framework
