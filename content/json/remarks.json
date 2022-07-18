@@ -10,5 +10,9 @@
   {
     "remark": "Haskell is a cool language, but it's just so weird.",
     "created": "2022. 06. 14."
+  },
+  {
+    "remark": "One of the reasons I scrapped my Gemini crawler/ search engine is because the more I delved into it, the more I realized how political indexing is.",
+    "created": "2022. 07. 18."
   }
 ]
