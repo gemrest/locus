@@ -64,7 +64,7 @@ pub fn module(router: &mut windmark::Router) {
 
       crate::route::cache(&context, &content);
 
-      windmark::Response::Success(content)
+      windmark::Response::SuccessWithMime(content, "text/plain".to_string())
     }),
   );
 }
